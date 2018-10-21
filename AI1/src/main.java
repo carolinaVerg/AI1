@@ -1,8 +1,6 @@
 import java.io.*; 
 public class main {
 
-
-
 	public static void main(String[] args) {
 		File file = new File("home/carolina/Desktop/UntitledDocument"); //graph description
 		
@@ -23,14 +21,19 @@ public class main {
 		} 
 		
 	}
-	
-	public void simulator‬‬(Graph world ,Agents[] agents) {
+	private void simulator‬‬(Graph world ,Agents[] agents) {
 		boolean stopWorld=false;
+		Graph state=world;
 		while (!stopWorld) {
-			
+			for(Agents a: agents) {
+				a.setPercept(world);
+				state=a.performAction();
+			}
+		}
+	}
+	private void simulatorr‬‬(Graph world ,Agents[] agents) {
+		
+			}
 		}
 	}‬‬
-	
-	
-
 }

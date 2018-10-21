@@ -1,35 +1,26 @@
+import java.util.LinkedList;
 
 public class Graph {
 	private int VerticesNum;
-	private int EdgesNum;
-	private int DeadLine;
-	private int [][]EdgeMatrix;
-	private int []Vertices;
+	private LinkedList<Vertex> Vertices;
 
-	public Graph() {
-		VerticesNum=0;
-		EdgesNum=0;
-		DeadLine=0;
-	}
 	
-	
-	public void modifyEdge(int vertice1,int vertice2, int weight) {
-		EdgeMatrix[vertice1][vertice2]=weight;
-		EdgeMatrix[vertice2][vertice1]=weight;
-	}
-	
-	
-	public void initiateGraph(int verticesNum, int edgeNum, int deadLine, int[][]edgeMatrix, int[] vertices) {
+	public Graph(int verticesNum) {
 		VerticesNum=verticesNum;
-		EdgesNum=edgeNum;
-		DeadLine=deadLine;
-		EdgeMatrix=edgeMatrix;
-		Vertices=vertices;
+		Vertices=new LinkedList<>();
 	}
+	
+	
+	public void addEdge(int vertice1Id,int vertice2Id, int weight) {
+		Vertex v1=Vertices.get(vertice1Id);
+		Vertex v2=Vertices.get(vertice2Id);
+		v1.addEdge(weight, v2);
+		v2.addEdge(weight, v1);
+	}
+	
 
-
-	public void modifyVertices(int verticesToChange) {
-		Vertices[verticesToChange]=0;
+	public void addVertex(Vertex v) {
+		Vertices.add(v);
 		
 	}
 }
