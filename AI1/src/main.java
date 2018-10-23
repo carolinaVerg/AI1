@@ -7,7 +7,7 @@ public class main {
 		File file = new File("C:\\Users\\Oro\\Desktop\\FROMLAB\\AI1\\AI1\\src\\tests\\test1.txt"); //graph description
 		BufferedReader br;
 		String st;
-        Graph world;
+        Graph world = null;
 		try {
 			br = new BufferedReader(new FileReader(file));
 			  try {
@@ -40,14 +40,23 @@ public class main {
 		Scanner reader = new Scanner(System.in);  // Reading from System.in
 		int n = reader.nextInt();
 		Agents agents[]= new Agents [n];
+		String[] input;
+		System.out.println("press 1 for human agent");
+		System.out.println("press 2 for greedy agent");
+		System.out.println("press 3 for vandal agent");
 		for(int i=0; i<agents.length; i++) {
-			System.out.println("press 1 for human agent");
-			System.out.println("press 2 for greedy agent");
-			System.out.println("press 3 for vandal agent");
-			n = reader.nextInt();
-			switch(n) {
-				case 1:
-					agents[i]=new HumanAgent();
+			System.out.format("please choose the %d'th agent followed by starting position",i);
+			input = reader.nextLine().split(" ");
+			switch(input[0]) {
+				case "1":
+					agents[i]=new HumanAgent(world.getVertexById(Integer.parseInt(input[1])));
+					break;
+				case "2":
+					agents[i]=new GreedyAgent(world.getVertexById(Integer.parseInt(input[1])));
+					break;
+				case "3":
+					agents[i]=new VandalAgent(world.getVertexById(Integer.parseInt(input[1])));
+					break;
 			}
 			
 			
