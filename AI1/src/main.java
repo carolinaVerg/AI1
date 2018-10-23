@@ -7,7 +7,6 @@ public class main {
 		BufferedReader br;
 		String st;
         Graph world;
-        int deadLine = 0;
 		try {
 			br = new BufferedReader(new FileReader(file));
 			  try {
@@ -23,7 +22,7 @@ public class main {
                                 updateEdge(data,world);
                                 break;
 							case "D":
-							    deadLine = updateDeadline(data);
+							    updateDeadline(data, world);
 							    break;
 						}
                   }
@@ -71,8 +70,8 @@ public class main {
         vsecond.addEdge(weight,vfirst);
     }
 
-    public static int updateDeadline(String[] data){
-        return Integer.parseInt(data[1]);
+    public static void updateDeadline(String[] data, Graph world){
+       world.setDeadLine(Integer.parseInt(data[1]));
     }
 
 	

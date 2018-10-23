@@ -1,0 +1,100 @@
+{
+"threads": 8,
+"Computers" : [
+{
+"Type":"A",
+"Sig Success": "1234666",
+"Sig Fail": "999283"
+},
+{
+"Type":"B",
+"Sig Success": "4424232",
+"Sig Fail": "5555353"
+}
+],
+"Phase 1" : [
+{
+"Action":"Open Course",
+"Department": "CS",
+"Course": "SPL",
+"Space": "400",
+"Prerequisites" : ["Data Structures", "Intro to CS"]
+},
+{
+"Action":"Open Course",
+"Department": "CS",
+"Course": "Data Bases",
+"Space": "30",
+"Prerequisites" : ["SPL"]
+},
+{
+"Action": "Add Student",
+"Department": "CS",
+"Student": "123456789"
+}
+],
+"Phase 2" : [
+{
+"Action": "Add Student",
+"Department": "Math",
+"Student": "132424353"
+},
+{
+"Action": "Participate In Course",
+"Student": "123456789",
+"Course": "SPL",
+"Grade": ["98"]
+},
+{
+"Action": "Add Student",
+"Department": "CS",
+"Student": "5959595959"
+},
+{
+"Action": "Add Spaces",
+"Course": "SPL",
+"Number": "100"
+},
+{
+"Action": "Participate In Course",
+"Student": "123456789",
+"Course": "Data Bases",
+"Grade": ["-"]
+},
+{
+"Action": "Register With Preferences",
+"Student": "5959595959",
+"Preferences": ["Data Bases","SPL"],
+"Grade": ["98","56"]
+},
+{
+"Action": "Unregister",
+"Student": "123456789",
+"Course": "Data Bases"
+},
+{
+"Action": "Close Course",
+"Department": "CS",
+"Course": "Data Bases"
+},
+{
+"Action" : "End Registeration"
+},
+{
+"Action" : "Administrative Check",
+"Department": "CS",
+"Students": ["123456789","5959595959"],
+"Computer": "A",
+"Conditions" : ["SPL", "Data Bases"]
+}
+],
+"Phase 3": [
+{
+"Action" : "Administrative Check",
+"Department": "CS",
+"Students": ["123456789","5959595959"],
+"Computer": "A",
+"Conditions" : ["SPL", "Data Bases"]
+}
+]
+}

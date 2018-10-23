@@ -4,6 +4,7 @@ public class Graph {
 	private int VerticesNum;
 	private LinkedList<Vertex> Vertices;
 	private int peopleRescude;
+	private int deadLine;
 
 	
 	public Graph(int verticesNum) {
@@ -30,4 +31,47 @@ public class Graph {
 	public Vertex getVertexById(int vId){
 		return Vertices.get(vId-1);
 	}
+
+
+	public int getVerticesNum() {
+		return VerticesNum;
+	}
+
+
+	public void setVerticesNum(int verticesNum) {
+		VerticesNum = verticesNum;
+	}
+
+
+	public LinkedList<Vertex> getVertices() {
+		return Vertices;
+	}
+
+
+	public void setVertices(LinkedList<Vertex> vertices) {
+		Vertices = vertices;
+	}
+
+
+	public int getPeopleRescude() {
+		return peopleRescude;
+	}
+
+
+	public void setPeopleRescude(int peopleRescude) {
+		this.peopleRescude = peopleRescude;
+	}
+
+
+	public int getDeadLine() {
+		return deadLine;
+	}
+
+
+	public void setDeadLine(int deadLine) {
+		this.deadLine = deadLine;
+	}
+
+
+	
 }
