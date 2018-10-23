@@ -36,36 +36,43 @@ public class main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("how many agents?");
-		Scanner reader = new Scanner(System.in);  // Reading from System.in
-		int n = reader.nextInt();
-		Agents agents[]= new Agents [n];
-		String[] input;
-		System.out.println("press 1 for human agent");
-		System.out.println("press 2 for greedy agent");
-		System.out.println("press 3 for vandal agent");
-		for(int i=0; i<agents.length; i++) {
-			System.out.format("please choose the %d'th agent followed by starting position",i);
-			input = reader.nextLine().split(" ");
-			switch(input[0]) {
-				case "1":
-					agents[i]=new HumanAgent(world.getVertexById(Integer.parseInt(input[1])));
-					break;
-				case "2":
-					agents[i]=new GreedyAgent(world.getVertexById(Integer.parseInt(input[1])));
-					break;
-				case "3":
-					agents[i]=new VandalAgent(world.getVertexById(Integer.parseInt(input[1])));
-					break;
-			}
+		Agents agents[] = initializeAgents(world);
+		
 			
 			
 			
-		}
+
 		
 	}
 
-	public void simulator‬‬(Graph world ,Agents[] agents) {
+    private static Agents[] initializeAgents(Graph world) {
+        System.out.println("how many agents?");
+        Scanner reader = new Scanner(System.in);  // Reading from System.in
+        int n = Integer.parseInt(reader.nextLine());
+        Agents agents[] = new Agents[n];
+        String[] input;
+        System.out.println("press 1 for human agent");
+        System.out.println("press 2 for greedy agent");
+        System.out.println("press 3 for vandal agent");
+        for (int i = 0; i < agents.length; i++) {
+            System.out.format("please choose the %d'th agent followed by starting position", i);
+            input = reader.nextLine().split(" ");
+            switch (input[0]) {
+                case "1":
+                    agents[i] = new HumanAgent(world.getVertexById(Integer.parseInt(input[1])));
+                    break;
+                case "2":
+                    agents[i] = new GreedyAgent(world.getVertexById(Integer.parseInt(input[1])));
+                    break;
+                case "3":
+                    agents[i] = new VandalAgent(world.getVertexById(Integer.parseInt(input[1])));
+                    break;
+            }
+        }
+        return agents;
+    }
+
+    public void simulator‬‬(Graph world ,Agents[] agents) {
 		boolean stopWorld=false;
 		Graph state=world;
 		Action newAction;
