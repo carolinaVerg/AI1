@@ -1,11 +1,11 @@
 
 public class Pair {
 	private Vertex vertex;
-	private int Edge;
+	private int weight;
 	
 	public Pair(Vertex newV, int weight) {
 		this.vertex=newV;
-		this.Edge=weight;
+		this.weight=weight;
 	}
 
 	public Vertex getVertex() {
@@ -16,12 +16,12 @@ public class Pair {
 		this.vertex = vertex;
 	}
 
-	public int getEdge() {
-		return Edge;
+	public int getWeight() {
+		return weight;
 	}
 
-	public void setEdge(int edge) {
-		Edge = edge;
+	public void setWeight(int weight) {
+		this.weight = weight;
 	}
 	
 }

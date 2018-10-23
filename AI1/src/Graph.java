@@ -28,6 +28,6 @@ public class Graph {
 	}
 
 	public Vertex getVertexById(int vId){
-		return Vertices.get(vId);
+		return Vertices.get(vId-1);
 	}
 }
