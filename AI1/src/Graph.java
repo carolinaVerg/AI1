@@ -9,6 +9,9 @@ public class Graph {
 	public Graph(int verticesNum) {
 		VerticesNum=verticesNum;
 		Vertices=new LinkedList<>();
+		for (int i=1; i<=VerticesNum; i++){
+			Vertices.add(new Vertex(0,false,i));
+		}
 	}
 	
 	
@@ -22,6 +25,9 @@ public class Graph {
 
 	public void addVertex(Vertex v) {
 		Vertices.add(v);
-		
+	}
+
+	public Vertex getVertexById(int vId){
+		return Vertices.get(vId);
 	}
 }
