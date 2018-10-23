@@ -1,12 +1,13 @@
 import java.io.*; 
 public class main {
-    Graph world;
-    int deadLine;
 
-	public void main(String[] args) {
+
+	public static void main(String[] args) {
 		File file = new File("C:\\Users\\Oro\\Desktop\\FROMLAB\\AI1\\AI1\\src\\tests\\test1.txt"); //graph description
 		BufferedReader br;
-		String st; 
+		String st;
+        Graph world;
+        int deadLine = 0;
 		try {
 			br = new BufferedReader(new FileReader(file));
 			  try {
@@ -16,13 +17,16 @@ public class main {
                         String[] data = st.split(" ");
                         switch(data[0]){
 							case "V":
-                                updateVertex(data);
+                                updateVertex(data,world);
+                                break;
 							case "E":
-                                updateEdge(data);
+                                updateEdge(data,world);
+                                break;
 							case "D":
-							    updateDeadline(data);
+							    deadLine = updateDeadline(data);
+							    break;
 						}
-					}
+                  }
 					    System.out.println(st);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -47,7 +51,7 @@ public class main {
 		}
 	}
 
-    public void updateVertex(String[] data){
+    public static void updateVertex(String[] data,Graph world){
         int vid = Integer.parseInt(data[1]);
         Boolean isShelter = ("S".equals(data[2]));
         int NumOfPeople = 0;
@@ -59,7 +63,7 @@ public class main {
         newV.setPeople(NumOfPeople);
     }
 
-    public void updateEdge(String[] data){
+    public static void updateEdge(String[] data,Graph world){
         Vertex vfirst = world.getVertexById(Integer.parseInt(data[1]));
         Vertex vsecond = world.getVertexById(Integer.parseInt(data[2]));
         int weight = Integer.parseInt(data[4]);
@@ -67,8 +71,8 @@ public class main {
         vsecond.addEdge(weight,vfirst);
     }
 
-    public void updateDeadline(String[] data){
-        deadLine = Integer.parseInt(data[1]);
+    public static int updateDeadline(String[] data){
+        return Integer.parseInt(data[1]);
     }
 
 	
