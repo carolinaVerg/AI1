@@ -2,7 +2,7 @@ import java.io.*;
 public class main {
 
 	public static void main(String[] args) {
-		File file = new File("home/carolina/Desktop/UntitledDocument"); //graph description
+		File file = new File("C:\\Users\\Oro\\Desktop\\FROMLAB\\AI1\\AI1\\src\\tests\\test1.txt"); //graph description
 		
 		BufferedReader br;
 		String st; 
