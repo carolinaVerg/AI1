@@ -1,18 +1,17 @@
 
 public abstract class Agents {
-	protected int State;
-	protected Graph Percept;
+	protected Vertex State;
+	
 
-	public Agents(int state) {
+	public Agents(Vertex state) {
 		this.State=state;
 	}
-	public void setPercept(Graph percept) {
-		this.Percept=percept;
 
-	}
-	public Graph performAction() {
+	
+	public Action AgentFunc(Graph Percept) {
 		return null;
 	}
+	
 	
 
 }

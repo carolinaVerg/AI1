@@ -3,6 +3,7 @@ import java.util.LinkedList;
 public class Graph {
 	private int VerticesNum;
 	private LinkedList<Vertex> Vertices;
+	private int peopleRescude;
 
 	
 	public Graph(int verticesNum) {

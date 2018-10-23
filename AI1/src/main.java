@@ -24,16 +24,14 @@ public class main {
 	private void simulator‬‬(Graph world ,Agents[] agents) {
 		boolean stopWorld=false;
 		Graph state=world;
+		Action newAction;
 		while (!stopWorld) {
 			for(Agents a: agents) {
-				a.setPercept(world);
-				state=a.performAction();
+				newAction=a.AgentFunc(world);
+				
 			}
 		}
 	}
-	private void simulatorr‬‬(Graph world ,Agents[] agents) {
-		
-			}
+	
 		}
-	}‬‬
-}
+
