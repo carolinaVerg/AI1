@@ -1,8 +1,7 @@
 
-public class HumanAgent {
+public class HumanAgent extends Agents{
 
-	public HumanAgent() {
-		// TODO Auto-generated constructor stub
+	public HumanAgent(Vertex state) {
+		super(state);
 	}
-
 }

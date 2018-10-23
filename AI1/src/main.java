@@ -1,4 +1,5 @@
 import java.io.*; 
+import java.util.Scanner;
 public class main {
 
 
@@ -34,7 +35,24 @@ public class main {
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
+		System.out.println("how many agents?");
+		Scanner reader = new Scanner(System.in);  // Reading from System.in
+		int n = reader.nextInt();
+		Agents agents[]= new Agents [n];
+		for(int i=0; i<agents.length; i++) {
+			System.out.println("press 1 for human agent");
+			System.out.println("press 2 for greedy agent");
+			System.out.println("press 3 for vandal agent");
+			n = reader.nextInt();
+			switch(n) {
+				case 1:
+					agents[i]=new HumanAgent();
+			}
+			
+			
+			
+		}
 		
 	}
 
