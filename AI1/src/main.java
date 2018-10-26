@@ -37,7 +37,7 @@ public class main {
 			e.printStackTrace();
 		}
 		Agents agents[] = initializeAgents(world);
-		
+
 			
 			
 			

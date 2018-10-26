@@ -1,39 +1,18 @@
 
 public class Action {
-	int cost;
+	int deadline;
 	int peopleSaved;
-	Vertex location;
+	Vertex vertexLocation;
 	Vertex EdgeToBlock;
+	int peopleOnCurrV;
 	
-	public Action(int cost,int peopleSaved, Vertex location,Vertex EdgeToBlock) {
-		this.cost=cost;
-		this.peopleSaved=peopleSaved;
-		this.location=location;
-		this.EdgeToBlock=EdgeToBlock;
-	}
-
-	public int getCost() {
-		return cost;
-	}
-
-	public void setCost(int cost) {
-		this.cost = cost;
-	}
-
-	public int getPeopleSaved() {
-		return peopleSaved;
-	}
-
-	public void setPeopleSaved(int peopleSaved) {
+	public Action(int deadline,int peopleSaved, Vertex vlocation,Vertex EdgeToBlock, int peopleOnCurrV) {
+		this.deadline = deadline;
 		this.peopleSaved = peopleSaved;
+		this.vertexLocation = vlocation;
+		this.EdgeToBlock = EdgeToBlock;
+		this.peopleOnCurrV = peopleOnCurrV;
 	}
+///////////////////////////////// UPDATE GETERS SETERS!!!! /////////////////////////////////
 
-	public Vertex getLocation() {
-		return location;
-	}
-
-	public void setLocation(Vertex location) {
-		this.location = location;
-	}
-	
 }

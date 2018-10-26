@@ -26,18 +26,20 @@ public  class Agents {
 	}
 
 
-	public Pair TreeSerch(BinaryHeap<TreeVertex> fringe, String goal) {
+	public Vertex TreeSearch(BinaryHeap<TreeVertex> fringe, String goal) { // finds shortest path according to current goal
 		TreeVertex current;
-		Pair toReturn;
+		Vertex vertexToRet;
 		while(!fringe.isEmpty()) {
-			current= fringe.remove();
-			toReturn=new Pair(current.getState().getVertex(), current.getCost());
+			current= fringe.remove(); // takes first from the priority queue
+			vertexToRet = current.getState().getVertex();
 			switch (goal) {
 			case "shelter":
-				if(current.getState().getVertex().isIsShelter())
-					return toReturn;
-				else
-					Expand(current, fringe);
+				if(vertexToRet.isIsShelter())
+					return vertexToRet;
+				else{
+					return Expand(current, fringe);
+				}
+
 			case "people":
 				if(current.getState().getVertex().getPeople()>0)
 					return toReturn;
@@ -48,7 +50,7 @@ public  class Agents {
 		return null;
 		
 	}
-	public BinaryHeap<TreeVertex> Expand (TreeVertex currentState,BinaryHeap<TreeVertex> fringe ){
+	public BinaryHeap<TreeVertex> Expand (TreeVertex currentState,BinaryHeap<TreeVertex> fringe ){ // returns updated fringe
 		TreeVertex newVertex;
 		Iterator<Pair> iter=currentState.getState().getVertex().getEdges().listIterator(0);
 		Pair currentPair;
@@ -61,6 +63,10 @@ public  class Agents {
 			
 		}
 		return fringe;
+	}
+
+	public int evalCost(){
+		return 0;
 	}
 	
 	

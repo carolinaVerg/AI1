@@ -63,7 +63,17 @@ public class Vertex {
 	public LinkedList<Pair> getEdges() {
 		return Edges;
 	}
-
+	public int getEdgeWeight(int vId){
+		Iterator<Pair> iter= getEdges().listIterator(0);
+		Pair currentEdge;
+		while (iter.hasNext()) {
+			currentEdge = iter.next();
+			if(currentEdge.getVertex().getId() == vId){
+				return currentEdge.getWeight();
+			}
+		}
+		return 0;
+	}
 	public void setEdges(LinkedList<Pair> edges) {
 		Edges = edges;
 	}
