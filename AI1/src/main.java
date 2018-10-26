@@ -79,10 +79,19 @@ public class main {
 		while (!stopWorld) {
 			for(Agents a: agents) {
 				newAction=a.AgentFunc(world.getDeadLine(), world.getPeopleNotRescude());
+				updateWorld(newAction, world);
 				
 			}
 		}
 	}
+    private void updateWorld(Action newAction, Graph world) {
+		world.setPeopleNotRescude(world.getPeopleNotRescude() -newAction.peopleSaved);
+		world.setPeopleRescude(world.getPeopleRescude()+ newAction.peopleSaved);
+		world.setDeadLine(newAction.deadline);
+		world.getVertexById(newAction.vertexLocation.getId()).setPeople(0);
+		
+	}
+
 
     public static void updateVertex(String[] data,Graph world){
         int vid = Integer.parseInt(data[1]);

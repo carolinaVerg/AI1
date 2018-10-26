@@ -16,9 +16,7 @@ public class Vertex {
 		this.Edges= new LinkedList<>();
 	}
 	
-	public void setNumOfPeople(int num) {
-		this.People=num;
-	}
+	
 	
 	public void addEdge(int weight, Vertex v) {
 		Edges.add(new Pair(v, weight));
