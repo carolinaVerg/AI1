@@ -4,6 +4,7 @@ public class Graph {
 	private int VerticesNum;
 	private LinkedList<Vertex> Vertices;
 	private int peopleRescude;
+	private int peopleNotRescude;
 	private int deadLine;
 
 	
@@ -71,6 +72,18 @@ public class Graph {
 	public void setDeadLine(int deadLine) {
 		this.deadLine = deadLine;
 	}
+
+
+	public int getPeopleNotRescude() {
+		return peopleNotRescude;
+	}
+
+
+	public void setPeopleNotRescude(int peopleNotRescude) {
+		this.peopleNotRescude = peopleNotRescude;
+	}
+	
+	
 
 
 	

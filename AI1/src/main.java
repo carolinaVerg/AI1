@@ -59,13 +59,13 @@ public class main {
             input = reader.nextLine().split(" ");
             switch (input[0]) {
                 case "1":
-                    agents[i] = new HumanAgent(world.getVertexById(Integer.parseInt(input[1])));
+                    agents[i] = new HumanAgent(new AgentState( world.getVertexById(Integer.parseInt(input[1]))));
                     break;
                 case "2":
-                    agents[i] = new GreedyAgent(world.getVertexById(Integer.parseInt(input[1])));
+                    agents[i] = new GreedyAgent(new AgentState(world.getVertexById(Integer.parseInt(input[1]))));
                     break;
                 case "3":
-                    agents[i] = new VandalAgent(world.getVertexById(Integer.parseInt(input[1])));
+                    agents[i] = new VandalAgent(new AgentState(world.getVertexById(Integer.parseInt(input[1]))));
                     break;
             }
         }
@@ -78,7 +78,7 @@ public class main {
 		Action newAction;
 		while (!stopWorld) {
 			for(Agents a: agents) {
-				newAction=a.AgentFunc(world);
+				newAction=a.AgentFunc(world.getDeadLine(), world.getPeopleNotRescude());
 				
 			}
 		}

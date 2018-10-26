@@ -1,7 +1,7 @@
 
 public class HumanAgent extends Agents{
 
-	public HumanAgent(Vertex state) {
+	public HumanAgent(AgentState state) {
 		super(state);
 	}
 }
