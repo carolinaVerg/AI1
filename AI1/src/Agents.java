@@ -29,15 +29,21 @@ public  class Agents {
 	public Vertex TreeSearch(BinaryHeap<TreeVertex> fringe, String goal) { // finds shortest path according to current goal
 		TreeVertex current;
 		Vertex vertexToRet;
+		TreeVertex source =fringe.peek();
 		while(!fringe.isEmpty()) {
 			current= fringe.remove(); // takes first from the priority queue
 			vertexToRet = current.getState().getVertex();
 			switch (goal) {
 			case "shelter":
-				if(vertexToRet.isIsShelter())
+				if(vertexToRet.isIsShelter()) {
+					while(current.getParent().getState().getVertex().getId()!= source.getState().getVertex().getId()) {
+						current=current.getParent();
+						vertexToRet = current.getState().getVertex();
+					}
 					return vertexToRet;
+				}
 				else{
-					return Expand(current, fringe);
+					Expand(current, fringe);
 				}
 
 			case "people":
