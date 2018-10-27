@@ -26,8 +26,8 @@ public class Graph {
 	}
 	
 	public void removeEdge(int vId1, int vId2){
-		this.Vertices.get(vId1).removeEdgeById(vId2);
-		this.Vertices.get(vId2).removeEdgeById(vId1);
+		this.getVertexById(vId1).removeEdgeById(vId2);
+		this.getVertexById(vId2).removeEdgeById(vId1);
 	}
 
 	public void addVertex(Vertex v) {

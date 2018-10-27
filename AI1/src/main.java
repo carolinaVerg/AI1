@@ -97,6 +97,9 @@ public class main {
                 }
 			}
 		}
+		// print world at deadline
+        System.out.println("deadline is over!!!");
+		System.out.format("%d people saved",world.getPeopleRescude());
 	}
 
     private static void updateWorld(Action newAction, Graph world) {
@@ -107,9 +110,10 @@ public class main {
             world.removeEdge(newAction.vertexLocation.getId(),newAction.EdgeToBlock.getId());
         }
         else{
-            world.getVertexById(newAction.vertexLocation.getId()).setPeople(0);
+            if(newAction.vertexLocation != null) {
+                world.getVertexById(newAction.vertexLocation.getId()).setPeople(0);
+            }
         }
-		world.getVertexById(newAction.vertexLocation.getId()).setPeople(0);
 	}
 
     public static void updateVertex(String[] data,Graph world){

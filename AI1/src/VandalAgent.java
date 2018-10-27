@@ -13,12 +13,13 @@ public class VandalAgent extends Agents {
     @Override
     public Action agentFunc(int deadLine, int peopleToSave) {
         Vertex edgeToBlock;
-        if (block = true) {
-            block = false;
+        if (block == true) {
+
             if (numOfNoOp < main.vNoOps) {
                 numOfNoOp++;
                 return new Action(deadLine - 1, 0, null, null, 0);  //NoOp
             } else {
+                block = false;
                 numOfNoOp = 0;
                 Pair minPair = getMinEdge();
                 if (minPair == null)
@@ -51,6 +52,9 @@ public class VandalAgent extends Agents {
             else {
                 if (minPair.getWeight() > currentPair.getWeight())
                     minPair = currentPair;
+                else if(minPair.getWeight() == currentPair.getWeight())
+                    if(minPair.getVertex().getId() > currentPair.getVertex().getId())
+                        minPair = currentPair;
             }
         }
         return minPair;
