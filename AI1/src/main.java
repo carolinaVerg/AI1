@@ -91,7 +91,7 @@ public class main {
 		while (world.getDeadLine() > 0) {
 		    for(Agents a: agents) {
 		        if(world.getDeadLine() > 0) {
-                    newAction = a.agentFunc(world.getDeadLine(), world.getPeopleNotRescude(), kConst);
+                    newAction = a.agentFunc(world.getDeadLine(), world.getPeopleNotRescude());
                     updateWorld(newAction, world);
                     //display current state
                 }

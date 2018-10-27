@@ -8,9 +8,9 @@ public class HumanAgent extends Agents {
     }
 
     @Override
-    public Action agentFunc(int deadline, int peopleToSave, int k){
+    public Action agentFunc(int deadline, int peopleToSave){
         printHeadlineMsg(deadline);     // prints current state
-        return getNextAction(deadline,peopleToSave,k);
+        return getNextAction(deadline,peopleToSave,main.kConst);
     }
 
     public Action getNextAction(int deadline,int peopleToSave,int k) { // gets the next move from user and updates current state

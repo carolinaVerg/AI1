@@ -7,7 +7,7 @@ public class Agents {
         this.State = state;
     }
 
-    public Action agentFunc(int deadLine, int peopleToSave,int k) {
+    public Action agentFunc(int deadLine, int peopleToSave) {
         return null;
     }
 

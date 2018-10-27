@@ -11,7 +11,7 @@ public class VandalAgent extends Agents {
     }
 
     @Override
-    public Action agentFunc(int deadLine, int peopleToSave, int k) {
+    public Action agentFunc(int deadLine, int peopleToSave) {
         Vertex edgeToBlock;
         if (block = true) {
             block = false;
