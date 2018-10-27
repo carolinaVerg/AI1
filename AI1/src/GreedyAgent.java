@@ -6,14 +6,14 @@ public class GreedyAgent extends Agents {
 		super(state);
 	}
 
-	public Action AgentFunc(int deadLine, int peopleToSave, int k) {
+	public Action agentFunc(int deadLine, int peopleToSave) {
 		int peopleSaved=0;
 		BinaryHeap< TreeVertex> fring=new BinaryHeap<>();
 		fring.add(new TreeVertex(this.State, null, 0) );
 		Vertex nextV;
 		if(this.State.peopleOn>0) {
 			nextV = TreeSearch(fring, "shelter"); // next v in shortest path
-			this.State.setDeadLine(deadLine - evalCost(this.State.vertex.getEdgeWeight(nextV.getId()),this.State.getPeopleOn(),k));
+			this.State.setDeadLine(deadLine - evalCost(this.State.vertex.getEdgeWeight(nextV.getId()),this.State.getPeopleOn(),main.kConst));
 			if(!nextV.isIsShelter()){	// NOT shelter
 				this.State.setPeopleOn(nextV.getPeople()+this.State.getPeopleOn()); // upload people
 			}
@@ -29,7 +29,7 @@ public class GreedyAgent extends Agents {
 		}
 		else {
 			nextV = TreeSearch(fring, "people");
-			this.State.setDeadLine(deadLine - evalCost(this.State.vertex.getEdgeWeight(nextV.getId()),this.State.getPeopleOn(),k));
+			this.State.setDeadLine(deadLine - evalCost(this.State.vertex.getEdgeWeight(nextV.getId()),this.State.getPeopleOn(),main.kConst));
 			/* setpeopleon(nextV.getpeople() + State.getpeopleon())??????? */
 			this.State.setPeopleOn(nextV.getPeople());
 			this.State.vertex = nextV; // moves the agent to new vertex
