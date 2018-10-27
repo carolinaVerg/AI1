@@ -14,6 +14,7 @@ public class Graph {
 		for (int i=1; i<=VerticesNum; i++){
 			Vertices.add(new Vertex(0,false,i));
 		}
+		this.peopleNotRescude = 0;
 	}
 	
 	
@@ -24,6 +25,10 @@ public class Graph {
 		v2.addEdge(weight, v1);
 	}
 	
+	public void removeEdge(int vId1, int vId2){
+		this.Vertices.get(vId1).removeEdgeById(vId2);
+		this.Vertices.get(vId2).removeEdgeById(vId1);
+	}
 
 	public void addVertex(Vertex v) {
 		Vertices.add(v);

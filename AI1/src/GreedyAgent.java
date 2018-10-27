@@ -1,9 +1,11 @@
+//// case where agent search and cant find (null cases) --> do no-op
 
 public class GreedyAgent extends Agents {
 
 	public GreedyAgent(AgentState state) {
 		super(state);
 	}
+
 	public Action AgentFunc(int deadLine, int peopleToSave, int k) {
 		int peopleSaved=0;
 		BinaryHeap< TreeVertex> fring=new BinaryHeap<>();
@@ -17,6 +19,7 @@ public class GreedyAgent extends Agents {
 			}
 			else{
 				if(this.State.getDeadLine() >=0) {
+					// set people to save?????// check calc
 					this.State.setPeopleToSave(peopleToSave - this.State.getPeopleOn());
 					peopleSaved = this.State.getPeopleOn();
 				}
@@ -27,16 +30,14 @@ public class GreedyAgent extends Agents {
 		else {
 			nextV = TreeSearch(fring, "people");
 			this.State.setDeadLine(deadLine - evalCost(this.State.vertex.getEdgeWeight(nextV.getId()),this.State.getPeopleOn(),k));
+			/* setpeopleon(nextV.getpeople() + State.getpeopleon())??????? */
 			this.State.setPeopleOn(nextV.getPeople());
 			this.State.vertex = nextV; // moves the agent to new vertex
 		}
 		return new Action(State.getDeadLine(),peopleSaved,nextV,null,0);
 	}
 
-	public int evalCost(int edgeWeight, int k, int numOfPeople){
-		return edgeWeight * ( 1 + (k * numOfPeople));
-	}
-	
+
 	
 	
 

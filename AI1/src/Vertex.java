@@ -61,6 +61,17 @@ public class Vertex {
 	public LinkedList<Pair> getEdges() {
 		return Edges;
 	}
+
+	public Vertex getNeighborByVid(int vId){
+		Iterator<Pair> edgeIter = Edges.listIterator(0);
+		while(edgeIter.hasNext()) {
+			Vertex v = edgeIter.next().getVertex();
+			if(v.getId() == vId){
+				return v;
+			}
+		}
+		return null;
+	}
 	public int getEdgeWeight(int vId){
 		Iterator<Pair> iter= getEdges().listIterator(0);
 		Pair currentEdge;

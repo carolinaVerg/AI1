@@ -3,27 +3,21 @@ import java.util.Iterator;
 public class Agents {
     protected AgentState State;
 
-
     public Agents(AgentState state) {
         this.State = state;
-
     }
 
-
-    public Action AgentFunc(int deadLine, int peopleToSave) {
+    public Action agentFunc(int deadLine, int peopleToSave,int k) {
         return null;
     }
-
 
     public AgentState getState() {
         return State;
     }
 
-
     public void setState(AgentState state) {
         State = state;
     }
-
 
     public Vertex TreeSearch(BinaryHeap<TreeVertex> fringe, String goal) { // finds shortest path according to current goal
         TreeVertex current;
@@ -64,10 +58,13 @@ public class Agents {
         TreeVertex newVertex;
         Iterator<Pair> iter = currentState.getState().getVertex().getEdges().listIterator(0);
         Pair currentPair;
+        int deadline;
         AgentState newState;
         while (iter.hasNext()) {
             currentPair = iter.next();
-            newVertex = new TreeVertex(new AgentState(currentPair.getVertex()),
+            /* what deadline for new agent state??? */
+            deadline = evalCost(currentPair.getWeight(),main.kConst,currentState.State.getPeopleOn());
+            newVertex = new TreeVertex(new AgentState(currentPair.getVertex(),deadline,0),
                     currentState, currentState.getCost() + currentPair.getWeight());
             fringe.add(newVertex);
 
@@ -75,9 +72,10 @@ public class Agents {
         return fringe;
     }
 
-    public int evalCost() {
-        return 0;
+    public static int evalCost(int edgeWeight, int k, int numOfPeople){
+        return edgeWeight * ( 1 + (k * numOfPeople));
     }
+
 
 
 }

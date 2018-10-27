@@ -4,9 +4,11 @@ public class AgentState {
 	protected int peopleOn;
 	protected int peopleToSave;
 	protected int deadLine;
-	public AgentState(Vertex vertex) {
+	public AgentState(Vertex vertex,int deadline,int peopleToSave) {
+		// update the state?
 		this.vertex=vertex;
-		
+		this.deadLine = deadline;
+		this.peopleToSave = peopleToSave;
 	}
 	
 	public Vertex getVertex() {
