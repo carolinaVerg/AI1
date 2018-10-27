@@ -98,7 +98,7 @@ public class main {
 			}
 		}
 		// print world at deadline
-        System.out.println("deadline is over!!!");
+        System.out.println("deadline is over!!!!!");
 		System.out.format("%d people saved",world.getPeopleRescude());
 	}
 
