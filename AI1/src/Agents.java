@@ -39,6 +39,14 @@ public class Agents {
                     else
                         Expand(current, fringe);
                     break;
+                case "optimal":
+                    AgentState currState = current.getState();
+                    if (currState.getPeopleToSave() == 0 || currState.getDeadLine() <= 0){
+                        return  findNextVer(source,current);
+                    }
+                    else{
+                        Expand(current, fringe);
+                    }
             }
         }
         return null;

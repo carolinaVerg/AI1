@@ -3,14 +3,16 @@ public class TreeVertex implements Comparable<TreeVertex>{
 	AgentState State;
 	TreeVertex Parent;
 	int Cost;
+	int hueristicVal;
 
 	public TreeVertex(AgentState State,TreeVertex Parent,int Cost) {
 		this.State=State;
 		this.Parent=Parent;
 		this.Cost=Cost;
+		this.hueristicVal =0;
 	}
 
-	
+
 
 	@Override
 	public int compareTo(TreeVertex V) {
