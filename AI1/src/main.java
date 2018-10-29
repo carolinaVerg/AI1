@@ -10,13 +10,12 @@ public class main {
     //GUI
 
 	public static void main(String[] args) {
-		File file = new File("C:\\Users\\Oro\\Desktop\\FROMLAB\\AI1\\AI1\\src\\tests\\test1.txt"); //graph description
+		File file = new File("C:\\Users\\Oro\\Desktop\\FROMLAB\\AI1\\AI1\\src\\tests\\test4_10v.txt"); //graph description
         Graph world = null;
         BufferedReader br = null;
 		String st = "";
 		world = initWorld(br,world,st,file);
 		Agents agents[] = initializeAgents(world);
-		// get k
 		simulator‬‬(world,agents);
 
 	}
@@ -49,7 +48,7 @@ public class main {
             e.printStackTrace();
         }
         vNoOps = world.getVerticesNum();
-        System.out.println("eneter K const:");
+        System.out.println("enter K const:");
         Scanner reader = new Scanner(System.in);  // Reading from System.in
         kConst = Integer.parseInt(reader.nextLine());
         return world;
@@ -93,14 +92,30 @@ public class main {
 		        if(world.getDeadLine() > 0) {
                     newAction = a.agentFunc(world.getDeadLine(), world.getPeopleNotRescude());
                     updateWorld(newAction, world);
+                    displayAgentInWorld(a);
                     //display current state
                 }
 			}
 		}
+		displayWorld(world);
 		// print world at deadline
-        System.out.println("deadline is over!!!!!");
-		System.out.format("%d people saved",world.getPeopleRescude());
 	}
+
+    private static void displayAgentInWorld(Agents agent) {
+        System.out.println("--------------------------------");
+	    System.out.println("Agent State:");
+	    System.out.format("current  vertex:           %d\n",agent.State.getVertex().getId());
+        System.out.format("Number of people on agent: %d\n",agent.State.getPeopleOn());
+        System.out.format("Number of people to save:  %d\n",agent.State.getPeopleToSave());
+    }
+
+    private static void displayWorld(Graph world) {
+        System.out.println("\n--------------------------------");
+        System.out.println("Deadline is over, current world state:");
+	    System.out.format("Number of people saved:       %d\n",world.getPeopleRescude());
+        System.out.format("Number of people Not rescued: %d\n",world.getPeopleNotRescude());
+
+    }
 
     private static void updateWorld(Action newAction, Graph world) {
 		world.setPeopleNotRescude(world.getPeopleNotRescude() -newAction.peopleSaved);
