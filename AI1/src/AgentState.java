@@ -9,6 +9,7 @@ public class AgentState {
 		this.vertex=vertex;
 		this.deadLine = deadline;
 		this.peopleToSave = peopleToSave;
+		this.peopleOn=0;
 	}
 	
 	public Vertex getVertex() {
@@ -34,6 +35,12 @@ public class AgentState {
 	}
 	public void setDeadLine(int deadLine) {
 		this.deadLine = deadLine;
+	}
+	public boolean isGoalState() {
+		if (this.getPeopleToSave() == 0 || this.getDeadLine() <= 0){
+            return  true;
+        }
+		return false;
 	}
 
 }

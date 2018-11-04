@@ -4,6 +4,8 @@ import java.util.Scanner;
 public class main {
     public static int kConst = 0;
     public static int vNoOps = 0;
+    public static Graph world=null;
+    public static int bignum=0;
     // K
     //update messages in the begin
     //simulator
@@ -11,7 +13,6 @@ public class main {
 
 	public static void main(String[] args) {
 		File file = new File("C:\\Users\\Oro\\Desktop\\FROMLAB\\AI1\\AI1\\src\\tests\\test4_10v.txt"); //graph description
-        Graph world = null;
         BufferedReader br = null;
 		String st = "";
 		world = initWorld(br,world,st,file);
@@ -150,6 +151,7 @@ public class main {
         int weight = Integer.parseInt(data[4]);
         vfirst.addEdge(weight,vsecond);
         vsecond.addEdge(weight,vfirst);
+        main.bignum=main.bignum+weight;
     }
 
     public static void updateDeadline(String[] data, Graph world){

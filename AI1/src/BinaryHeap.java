@@ -1,8 +1,3 @@
-/**
- * CSE 373, Winter 2011, Jessica Miller
- * The BinaryHeap is an -generic- implementation of the PriorityQueue interface.  
- * This is a binary min-heap implementation of the priority queue ADT.
- */
 import java.util.Arrays;
 
 public class BinaryHeap<T extends Comparable<T>>  {
