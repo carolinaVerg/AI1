@@ -12,7 +12,7 @@ public class main {
     //GUI
 
 	public static void main(String[] args) {
-		File file = new File("C:\\Users\\Oro\\Desktop\\FROMLAB\\AI1\\AI1\\src\\tests\\test4_10v.txt"); //graph description
+		File file = new File("C:\\Users\\Oro\\Desktop\\FROMLAB\\AI1\\AI1\\src\\tests\\test1_4v.txt"); //graph description
         BufferedReader br = null;
 		String st = "";
 		world = initWorld(br,world,st,file);
@@ -64,6 +64,9 @@ public class main {
         System.out.println("press 1 for Human agent");
         System.out.println("press 2 for Greedy agent");
         System.out.println("press 3 for Vandal agent");
+        System.out.println("press 4 for Greedy Search agent");
+        System.out.println("press 5 for A* agent");
+        System.out.println("press 6 for Real time A* agent");
         int peopleToSave= world.getPeopleNotRescude();
         for (int i = 0; i < agents.length; i++) {
             System.out.format("please choose the %d'th agent followed by starting position\n", i+1);
@@ -80,6 +83,20 @@ public class main {
                 case "3":
                     agents[i] = new VandalAgent(new AgentState(startV,deadline,0));
                     break;
+                case "4":
+                    agents[i] = new GreedySerchAgent(new AgentState(startV,deadline,peopleToSave));
+                    break;
+                case "5":
+                    agents[i] = new AStarAgent(new AgentState(startV,deadline,peopleToSave));
+                    break;
+                case "6":
+                    System.out.println("Enter the threshold expand limit");
+                    int expLimit = reader.nextInt();
+                    agents[i] = new RealTimeAStarAgent(new AgentState(startV,deadline,peopleToSave),expLimit);
+                    break;
+
+                    default:
+                        break;
             }
         }
         return agents;

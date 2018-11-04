@@ -23,7 +23,7 @@ public class Agents {
     public  AgentState TreeSearch(BinaryHeap<TreeVertex> fringe, String goal, int numOfExp, int id) { // finds shortest path according to current goal
     	ArrayList<Vertex> visited= new ArrayList<>();
     	TreeVertex current;
-        int ExpCounter=0;
+        int ExpCounter=numOfExp;
         TreeVertex source = fringe.peek();
         while (!fringe.isEmpty()) {
             current = fringe.remove(); // takes first from the priority queue         
