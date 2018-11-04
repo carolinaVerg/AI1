@@ -12,7 +12,7 @@ public class TreeVertex implements Comparable<TreeVertex>{
 		this.Parent=Parent;
 		this.Cost=Cost;
 		this.evalNum=0;
-		this.setHueristicVal();
+		this.hueristicVal = 0;
 	}
 
 
@@ -70,9 +70,10 @@ public class TreeVertex implements Comparable<TreeVertex>{
 
 
 
-	private void setHueristicVal() {
-		if(State.isGoalState())
-			this.hueristicVal=0;
+	public void setHueristicVal() {
+		if(State.isGoalState()) {
+			this.hueristicVal = 0;
+		}
 		else {
 			int PeopleCantBeRescude=0;
 			int deadLine=State.deadLine;
@@ -86,19 +87,16 @@ public class TreeVertex implements Comparable<TreeVertex>{
 	        while (iter.hasNext()) {
 	        	currentSucssesor = iter.next();
 	        	if(currentSucssesor.getPeople()>0) 
-	        		newPeopleState=agent.TreeSearch(fring, "id", 0, currentSucssesor.getId());  //serch for people
+	        		newPeopleState=agent.TreeSearch(fring, "id", 0, currentSucssesor.getId(),true);  //serch for people
 	        	if(newPeopleState==null)
 	        		PeopleCantBeRescude=PeopleCantBeRescude+currentSucssesor.getPeople();
 	        	else {
 	        		fring=new BinaryHeap<>();
 	    			fring.add(new TreeVertex(newPeopleState, null, 0) );
-	        		newShelterState=agent.TreeSearch(fring, "shelter", 0, 0);
+	        		newShelterState=agent.TreeSearch(fring, "shelter", 0, 0,true);
 	        		if(newShelterState==null||newShelterState.getDeadLine()<0)	// people canot be saved
 	        			PeopleCantBeRescude=PeopleCantBeRescude+currentSucssesor.getPeople();	
 	        	}
-	        	
-	           
-
 	        }
 	        this.hueristicVal=PeopleCantBeRescude;
 		}

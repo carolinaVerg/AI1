@@ -12,10 +12,10 @@ public class GreedyAgent extends Agents {
 		fring.add(new TreeVertex(this.State, null, 0) );
 		Vertex nextV;
 		if(this.State.peopleOn>0) {
-			this.State = TreeSearch(fring, "shelter",0,0); // next v in shortest path
+			this.State = TreeSearch(fring, "shelter",0,0,false); // next v in shortest path
 		}
 		else {
-			this.State = TreeSearch(fring, "people",0,0);
+			this.State = TreeSearch(fring, "people",0,0,false);
 		}
 		return new Action(State.getDeadLine(),peopleToSave-this.State.peopleToSave,this.getState().getVertex(),null,0);
 	}

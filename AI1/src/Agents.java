@@ -20,7 +20,7 @@ public class Agents {
         State = state;
     }
 
-    public  AgentState TreeSearch(BinaryHeap<TreeVertex> fringe, String goal, int numOfExp, int id) { // finds shortest path according to current goal
+    public  AgentState TreeSearch(BinaryHeap<TreeVertex> fringe, String goal, int numOfExp, int id,Boolean isHuristic) { // finds shortest path according to current goal
     	ArrayList<Vertex> visited= new ArrayList<>();
     	TreeVertex current;
         int ExpCounter=numOfExp;
@@ -33,14 +33,14 @@ public class Agents {
                         return findNextVer(source,current);
                     }
                     else {
-                        Expand(current, fringe);
+                        Expand(current, fringe,isHuristic);
                     }
                     break;
                 case "people":
                     if (current.getState().getVertex().getPeople() > 0)
                         return findNextVer(source,current);
                     else
-                        Expand(current, fringe);
+                        Expand(current, fringe,isHuristic);
                     break;
                 case "optimal":
                 	if(visited.contains(current.getState().getVertex())) { // check for loops
@@ -52,7 +52,7 @@ public class Agents {
                         return  findNextVer(source,current);
                     }
                     else{
-                        Expand(current, fringe);
+                        Expand(current, fringe,isHuristic);
                         ExpCounter--;
                     }
                     break;
@@ -61,7 +61,7 @@ public class Agents {
                         return  findNextVer(source,current);
                     }
                     else{
-                        Expand(current, fringe);
+                        Expand(current, fringe,isHuristic);
                     }
             }
         }
@@ -70,23 +70,28 @@ public class Agents {
     } //returns next v for the action
 
     public  AgentState findNextVer(TreeVertex sourceV, TreeVertex currV) {
-        AgentState StateToRet = currV.getState();
+        AgentState stateToRet = currV.getState();
+        if(currV.getParent() == null){
+            return stateToRet;
+        }
         while (currV.getParent().getState().getVertex().getId() != sourceV.getState().getVertex().getId()) {
             currV = currV.getParent();
-            StateToRet = currV.getState();
+            stateToRet = currV.getState();
         }
-        return StateToRet;
+        return stateToRet;
     } // finds next v parents...
 
-    public  BinaryHeap<TreeVertex> Expand(TreeVertex currentState, BinaryHeap<TreeVertex> fringe) { // returns updated fringe
+    public  BinaryHeap<TreeVertex> Expand(TreeVertex currentState, BinaryHeap<TreeVertex> fringe, Boolean isHuristic) { // returns updated fringe
     	
         Iterator<Pair> iter = currentState.getState().getVertex().getEdges().listIterator(0);
         Pair currentPair;
         TreeVertex newVertex;
-        AgentState newState;
         while (iter.hasNext()) {
             currentPair = iter.next();
             newVertex=buildVertexState(currentPair, currentState);
+            if(!isHuristic) {
+                newVertex.setHueristicVal();
+            }
             fringe.add(newVertex);
 
         }
@@ -117,6 +122,7 @@ public class Agents {
         newVertex.getState().setPeopleOn(peopleOn);
         return setEvalFanc(newVertex);
     }
+
     public  TreeVertex setEvalFanc(TreeVertex treeVertex) {
     	treeVertex.setEvalNum(treeVertex.getCost());
         return treeVertex;
