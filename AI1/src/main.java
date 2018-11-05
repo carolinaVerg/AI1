@@ -12,9 +12,18 @@ public class main {
     //GUI
 
 	public static void main(String[] args) {
-		File file = new File("C:\\Users\\Oro\\Desktop\\FROMLAB\\AI1\\AI1\\src\\tests\\test1_4v.txt"); //graph description
+		File file = new File("tests\\test1_4v.txt"); //graph description
         BufferedReader br = null;
 		String st = "";
+	/*	world=new Graph(2);
+		Vertex v1=world.getVertexById(1);
+		Vertex v2=world.getVertexById(2);
+		v1.setIsShelter(true);
+		v2.setPeople(1);
+		v1.addEdge(1, v2);
+		v2.addEdge(1, v1);
+		world.setDeadLine(4);
+		world.setPeopleNotRescude(1); */
 		world = initWorld(br,world,st,file);
 		Agents agents[] = initializeAgents(world);
 		simulator‬‬(world,agents);
@@ -105,9 +114,9 @@ public class main {
     public static void simulator‬‬(Graph world ,Agents[] agents) {
 		Graph state=world;
 		Action newAction;
-		while (world.getDeadLine() > 0) {
+		while (world.getDeadLine() > 0 && world.getPeopleNotRescude()>0) {
 		    for(Agents a: agents) {
-		        if(world.getDeadLine() > 0) {
+		        if(world.getDeadLine() > 0 ) {
                     newAction = a.agentFunc(world.getDeadLine(), world.getPeopleNotRescude());
                     updateWorld(newAction, world);
                     displayAgentInWorld(a);

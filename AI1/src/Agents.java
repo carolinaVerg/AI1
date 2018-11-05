@@ -22,6 +22,7 @@ public class Agents {
 
     public  AgentState TreeSearch(BinaryHeap<TreeVertex> fringe, String goal, int numOfExp, int id,Boolean isHuristic) { // finds shortest path according to current goal
     	ArrayList<Vertex> visited= new ArrayList<>();
+    	AgentState currState=null;
     	TreeVertex current;
         int ExpCounter=numOfExp;
         TreeVertex source = fringe.peek();
@@ -47,7 +48,7 @@ public class Agents {
                 		break;
                 	}
                 	visited.add(current.getState().getVertex());
-                    AgentState currState = current.getState();
+                    currState = current.getState();
                     if (currState.isGoalState()||ExpCounter==0){
                         return  findNextVer(source,current);
                     }
@@ -58,14 +59,14 @@ public class Agents {
                     break;
                 case "id":
                     if (current.getState().getVertex().getId()==id){
-                        return  findNextVer(source,current);
+                        return  current.getState();
                     }
                     else{
                         Expand(current, fringe,isHuristic);
                     }
             }
         }
-        return null;
+        return currState;
 
     } //returns next v for the action
 

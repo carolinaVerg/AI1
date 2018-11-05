@@ -98,7 +98,7 @@ public class TreeVertex implements Comparable<TreeVertex>{
 	        			PeopleCantBeRescude=PeopleCantBeRescude+currentSucssesor.getPeople();	
 	        	}
 	        }
-	        this.hueristicVal=PeopleCantBeRescude;
+	        this.hueristicVal=main.bignum* PeopleCantBeRescude;
 		}
 	}
 
