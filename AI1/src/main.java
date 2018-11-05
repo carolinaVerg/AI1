@@ -15,15 +15,32 @@ public class main {
 		File file = new File("C:\\Users\\Oro\\Desktop\\FROMLAB\\AI1\\AI1\\src\\tests\\test1_4v.txt"); //graph description
         BufferedReader br = null;
 		String st = "";
-	/*	world=new Graph(2);
+/*		world=new Graph(4);
 		Vertex v1=world.getVertexById(1);
 		Vertex v2=world.getVertexById(2);
+		Vertex v3=world.getVertexById(3);
+		Vertex v4=world.getVertexById(4);
 		v1.setIsShelter(true);
 		v2.setPeople(1);
+		v4.setPeople(2);
 		v1.addEdge(1, v2);
 		v2.addEdge(1, v1);
-		world.setDeadLine(4);
-		world.setPeopleNotRescude(1); */
+	
+		v1.addEdge(4, v3);
+		v3.addEdge(4, v1);
+		
+		
+		v2.addEdge(1, v3);
+		v3.addEdge(1, v2);
+		
+		v2.addEdge(5, v4);
+		v4.addEdge(5, v2);
+		
+		v4.addEdge(1, v3);
+		v3.addEdge(1, v4);
+		world.setDeadLine(3);
+		world.setPeopleNotRescude(3); 
+		main.bignum=12; */
 		world = initWorld(br,world,st,file);
 		Agents agents[] = initializeAgents(world);
 		simulator‬‬(world,agents);
