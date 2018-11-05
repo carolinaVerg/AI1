@@ -35,14 +35,16 @@ public class Agents {
                     }
                     else {
                         Expand(current, fringe,isHuristic);
+                        break;
                     }
-                    break;
+
                 case "people":
                     if (current.getState().getVertex().getPeople() > 0)
                         return findNextVer(source,current);
-                    else
-                        Expand(current, fringe,isHuristic);
-                    break;
+                    else {
+                        Expand(current, fringe, isHuristic);
+                        break;
+                    }
                 case "optimal":
                 	if(visited.contains(current.getState().getVertex())) { // check for loops
                 		break;
@@ -55,18 +57,20 @@ public class Agents {
                     else{
                         Expand(current, fringe,isHuristic);
                         ExpCounter--;
+                        break;
                     }
-                    break;
                 case "id":
                     if (current.getState().getVertex().getId()==id){
                         return  current.getState();
                     }
                     else{
                         Expand(current, fringe,isHuristic);
+                        break;
                     }
+                    default:break;
             }
         }
-        return currState;
+        return findNextVer(source,currState);
 
     } //returns next v for the action
 
@@ -75,7 +79,7 @@ public class Agents {
         if(currV.getParent() == null){
             return stateToRet;
         }
-        while (currV.getParent().getState().getVertex().getId() != sourceV.getState().getVertex().getId()) {
+        while (currV.getParent()!= sourceV) {
             currV = currV.getParent();
             stateToRet = currV.getState();
         }

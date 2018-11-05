@@ -85,6 +85,7 @@ public class TreeVertex implements Comparable<TreeVertex>{
 	        BinaryHeap< TreeVertex> fring=new BinaryHeap<>();
 			fring.add(new TreeVertex(this.State, null, 0) );
 	        while (iter.hasNext()) {
+	        	newPeopleState = null;
 	        	currentSucssesor = iter.next();
 	        	if(currentSucssesor.getPeople()>0) 
 	        		newPeopleState=agent.TreeSearch(fring, "id", 0, currentSucssesor.getId(),true);  //serch for people

@@ -12,7 +12,7 @@ public class main {
     //GUI
 
 	public static void main(String[] args) {
-		File file = new File("tests\\test1_4v.txt"); //graph description
+		File file = new File("C:\\Users\\Oro\\Desktop\\FROMLAB\\AI1\\AI1\\src\\tests\\test1_4v.txt"); //graph description
         BufferedReader br = null;
 		String st = "";
 	/*	world=new Graph(2);
