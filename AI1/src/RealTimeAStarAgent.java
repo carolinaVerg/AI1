@@ -1,6 +1,6 @@
 
 public class RealTimeAStarAgent extends Agents{
-	int NumOfExp;
+	private int NumOfExp;
 
 	public RealTimeAStarAgent(AgentState state, int numOfExp) {
 		super(state);

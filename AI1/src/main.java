@@ -6,41 +6,16 @@ public class main {
     public static int vNoOps = 0;
     public static Graph world=null;
     public static int bignum=0;
+    public static int numOfExpands = 0;
     // K
     //update messages in the begin
     //simulator
     //GUI
 
 	public static void main(String[] args) {
-		File file = new File("C:\\Users\\Oro\\Desktop\\FROMLAB\\AI1\\AI1\\src\\tests\\test1_4v.txt"); //graph description
+		File file = new File("C:\\Users\\Oro\\Desktop\\FROMLAB\\AI1\\AI1\\src\\tests\\test1_4v_170p.txt"); //graph description
         BufferedReader br = null;
 		String st = "";
-/*		world=new Graph(4);
-		Vertex v1=world.getVertexById(1);
-		Vertex v2=world.getVertexById(2);
-		Vertex v3=world.getVertexById(3);
-		Vertex v4=world.getVertexById(4);
-		v1.setIsShelter(true);
-		v2.setPeople(1);
-		v4.setPeople(2);
-		v1.addEdge(1, v2);
-		v2.addEdge(1, v1);
-	
-		v1.addEdge(4, v3);
-		v3.addEdge(4, v1);
-		
-		
-		v2.addEdge(1, v3);
-		v3.addEdge(1, v2);
-		
-		v2.addEdge(5, v4);
-		v4.addEdge(5, v2);
-		
-		v4.addEdge(1, v3);
-		v3.addEdge(1, v4);
-		world.setDeadLine(3);
-		world.setPeopleNotRescude(3); 
-		main.bignum=12; */
 		world = initWorld(br,world,st,file);
 		Agents agents[] = initializeAgents(world);
 		simulator‬‬(world,agents);
@@ -147,6 +122,7 @@ public class main {
 
     private static void displayAgentInWorld(Agents agent) {
         System.out.println("--------------------------------");
+        System.out.format("Current deadline: %d", main.world.getDeadLine());
 	    System.out.println("Agent State:");
 	    System.out.format("current  vertex:           %d\n",agent.State.getVertex().getId());
         System.out.format("Number of people on agent: %d\n",agent.State.getPeopleOn());
@@ -154,23 +130,27 @@ public class main {
     }
 
     private static void displayWorld(Graph world) {
+        System.out.println("please enter the f parameter to evaluate the performance:");
+        Scanner reader = new Scanner(System.in);
+        int f = reader.nextInt();
         System.out.println("\n--------------------------------");
         System.out.println("Deadline is over, current world state:");
-	    System.out.format("Number of people saved:       %d\n",world.getPeopleRescude());
+        System.out.format("Number of people saved:       %d\n",world.getPeopleRescude());
         System.out.format("Number of people Not rescued: %d\n",world.getPeopleNotRescude());
-
+        int p = f*world.getPeopleRescude() + numOfExpands;
+        System.out.format("The Agents performance: %d\n",p);
     }
 
     private static void updateWorld(Action newAction, Graph world) {
-		world.setPeopleNotRescude(world.getPeopleNotRescude() -newAction.peopleSaved);
-		world.setPeopleRescude(world.getPeopleRescude()+ newAction.peopleSaved);
-		world.setDeadLine(newAction.deadline);
-        if(newAction.EdgeToBlock != null){ // vandal agent case
-            world.removeEdge(newAction.vertexLocation.getId(),newAction.EdgeToBlock.getId());
+		world.setPeopleNotRescude(world.getPeopleNotRescude() -newAction.getPeopleSaved());
+		world.setPeopleRescude(world.getPeopleRescude()+ newAction.getPeopleSaved());
+		world.setDeadLine(newAction.getDeadline());
+        if(newAction.getEdgeToBlock() != null){ // vandal agent case
+            world.removeEdge(newAction.getVertexLocation().getId(),newAction.getEdgeToBlock().getId());
         }
         else{
-            if(newAction.vertexLocation != null) {
-                world.getVertexById(newAction.vertexLocation.getId()).setPeople(0);
+            if(newAction.getVertexLocation() != null) {
+                world.getVertexById(newAction.getVertexLocation().getId()).setPeople(0);
             }
         }
 	}

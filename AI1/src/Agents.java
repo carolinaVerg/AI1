@@ -88,7 +88,7 @@ public class Agents {
     } // finds next v parents...
 
     public  BinaryHeap<TreeVertex> Expand(TreeVertex currentState, BinaryHeap<TreeVertex> fringe, Boolean isHuristic) { // returns updated fringe
-    	
+    	main.numOfExpands ++;
         Iterator<Pair> iter = currentState.getState().getVertex().getEdges().listIterator(0);
         Pair currentPair;
         TreeVertex newVertex;
@@ -113,7 +113,7 @@ public class Agents {
     	int peopleNotSaved=currentState.getState().getPeopleToSave();
     	int peopleOn;
     	TreeVertex newVertex;
-    	deadline =currentState.getState().getDeadLine()- evalCost(currentPair.getWeight(),main.kConst,currentState.State.getPeopleOn());
+    	deadline =currentState.getState().getDeadLine()- evalCost(currentPair.getWeight(),main.kConst,currentState.getState().getPeopleOn());
     	if(currentPair.getVertex().isIsShelter()) {
     		peopleOn=0;
     		if(deadline>=0)
