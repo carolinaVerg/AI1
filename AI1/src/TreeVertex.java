@@ -82,22 +82,26 @@ public class TreeVertex implements Comparable<TreeVertex>{
 			AgentState newShelterState = null;
 			Iterator<Vertex> iter = main.world.getVertices().listIterator(0);
 	        Vertex currentSucssesor;
-	        BinaryHeap< TreeVertex> fring=new BinaryHeap<>();
-			fring.add(new TreeVertex(this.State, null, 0) );
+	        BinaryHeap< TreeVertex> fring;
 	        while (iter.hasNext()) {
+	        	fring=new BinaryHeap<>();
+				fring.add(new TreeVertex(this.State, null, 0) );
 	        	newPeopleState = null;
 	        	currentSucssesor = iter.next();
-	        	if(currentSucssesor.getPeople()>0) 
+	        	if(currentSucssesor.getPeople()>0 && !agent.isParentOf(this, currentSucssesor)) {
 	        		newPeopleState=agent.TreeSearch(fring, "id", 0, currentSucssesor.getId(),true);  //serch for people
-	        	if(newPeopleState==null)
-	        		PeopleCantBeRescude=PeopleCantBeRescude+currentSucssesor.getPeople();
-	        	else {
-	        		fring=new BinaryHeap<>();
-	    			fring.add(new TreeVertex(newPeopleState, null, 0) );
-	        		newShelterState=agent.TreeSearch(fring, "shelter", 0, 0,true);
-	        		if(newShelterState==null||newShelterState.getDeadLine()<0)	// people canot be saved
-	        			PeopleCantBeRescude=PeopleCantBeRescude+currentSucssesor.getPeople();	
+		        	if(newPeopleState==null)
+		        		PeopleCantBeRescude=PeopleCantBeRescude+currentSucssesor.getPeople();
+		        	else {
+		        		fring=new BinaryHeap<>();
+		    			fring.add(new TreeVertex(newPeopleState, null, 0) );
+		        		newShelterState=agent.TreeSearch(fring, "shelter", 0, 0,true);
+		        		if(newShelterState==null||newShelterState.getDeadLine()<0)	// people canot be saved
+		        			PeopleCantBeRescude=PeopleCantBeRescude+currentSucssesor.getPeople();	
+		        	}
 	        	}
+	        		
+	        	
 	        }
 	        this.hueristicVal=main.bignum* PeopleCantBeRescude;
 		}

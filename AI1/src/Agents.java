@@ -86,6 +86,20 @@ public class Agents {
         }
         return stateToRet;
     } // finds next v parents...
+    
+    public  boolean isParentOf(TreeVertex sourceV, Vertex currV) {
+        boolean isParentOf = false;
+        TreeVertex sorce=sourceV;
+        if(currV.getId() == sourceV.getState().getVertex().getId()){
+            return true;
+        }
+        while (sorce.getParent()!=null) {
+        	sorce=sorce.getParent();
+            if(currV.getId() == sorce.getState().getVertex().getId())
+            	return true;
+        }
+        return false;
+    }
 
     public  BinaryHeap<TreeVertex> Expand(TreeVertex currentState, BinaryHeap<TreeVertex> fringe, Boolean isHuristic) { // returns updated fringe
     	main.numOfExpands ++;
@@ -111,7 +125,7 @@ public class Agents {
     public  TreeVertex buildVertexState(Pair currentPair, TreeVertex currentState) {
     	int deadline;
     	int peopleNotSaved=currentState.getState().getPeopleToSave();
-    	int peopleOn;
+    	int peopleOn=currentState.getState().getPeopleOn();
     	TreeVertex newVertex;
     	deadline =currentState.getState().getDeadLine()- evalCost(currentPair.getWeight(),main.kConst,currentState.getState().getPeopleOn());
     	if(currentPair.getVertex().isIsShelter()) {
@@ -120,7 +134,8 @@ public class Agents {
     			peopleNotSaved=currentState.getState().getPeopleToSave()-currentState.getState().getPeopleOn();
     	}
     	else {
-    		peopleOn=currentState.getState().getPeopleOn()+currentPair.getVertex().getPeople();
+    		if(!isParentOf(currentState, currentPair.getVertex()))
+    			peopleOn=peopleOn+currentPair.getVertex().getPeople();
     		peopleNotSaved=currentState.getState().getPeopleToSave();
     	}
         newVertex = new TreeVertex(new AgentState(currentPair.getVertex(),deadline,peopleNotSaved),  //build new vertex and state
