@@ -13,35 +13,9 @@ public class main {
     //GUI
 
 	public static void main(String[] args) {
-		File file = new File("C:\\Users\\Oro\\Desktop\\FROMLAB\\AI1\\AI1\\src\\tests\\test1_4v_170p.txt"); //graph description
+		File file = new File("/home/carolina/eclipse-workspace/AI1-master/AI1/src/tests/test1.txt"); //graph description
         BufferedReader br = null;
 		String st = "";
-/*		world=new Graph(4);
-		world.setDeadLine(20);
-		Vertex v1=world.getVertexById(1);
-		Vertex v2=world.getVertexById(2);
-		Vertex v3=world.getVertexById(3);
-		Vertex v4=world.getVertexById(4);
-		v1.setIsShelter(true);
-		v2.setPeople(1);
-		v4.setPeople(2);
-		world.setPeopleNotRescude(3);
-		v1.addEdge(4 , v3);
-		v3.addEdge(4, v1);
-		
-		v1.addEdge(1, v2);
-		v2.addEdge(1, v1);
-		
-		v2.addEdge(1, v3);
-		v3.addEdge(1, v2);
-		
-		v2.addEdge(5, v4);
-		v4.addEdge(5, v2);
-		
-		v3.addEdge(1, v4);
-		v4.addEdge(1, v3);  
-		
-		bignum=12;*/
 		world = initWorld(br,world,st,file);
 		Agents agents[] = initializeAgents(world);
 		simulator‬‬(world,agents);

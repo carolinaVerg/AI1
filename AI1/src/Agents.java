@@ -26,11 +26,14 @@ public class Agents {
     	TreeVertex current;
         int ExpCounter=numOfExp;
         TreeVertex source = fringe.peek();
+        AgentState toReturn=null;
         while (!fringe.isEmpty()) {
             current = fringe.remove(); // takes first from the priority queue         
             switch (goal) {
                 case "shelter":
                     if (current.getState().getVertex().isIsShelter()) {
+                    	if(isHuristic)
+                    		return current.getState();
                         return findNextVer(source,current);
                     }
                     else {
@@ -61,7 +64,9 @@ public class Agents {
                     }
                 case "id":
                     if (current.getState().getVertex().getId()==id){
-                        return  current.getState();
+                    	toReturn=new AgentState(current.getState().getVertex(), current.getState().getDeadLine(), current.getState().getPeopleToSave());
+                    	toReturn.setPeopleOn(current.getState().getVertex().getPeople());
+                        return  toReturn;
                     }
                     else{
                         Expand(current, fringe,isHuristic);
@@ -90,9 +95,7 @@ public class Agents {
     public  boolean isParentOf(TreeVertex sourceV, Vertex currV) {
         boolean isParentOf = false;
         TreeVertex sorce=sourceV;
-        if(currV.getId() == sourceV.getState().getVertex().getId()){
-            return true;
-        }
+        
         while (sorce.getParent()!=null) {
         	sorce=sorce.getParent();
             if(currV.getId() == sorce.getState().getVertex().getId())
@@ -108,9 +111,10 @@ public class Agents {
         TreeVertex newVertex;
         while (iter.hasNext()) {
             currentPair = iter.next();
-            newVertex=buildVertexState(currentPair, currentState);
+            newVertex=buildVertexState(currentPair, currentState,isHuristic);
             if(!isHuristic) {
                 newVertex.setHueristicVal();
+                newVertex=this.setEvalFanc(newVertex);
             }
             fringe.add(newVertex);
 
@@ -122,7 +126,7 @@ public class Agents {
         return edgeWeight * ( 1 + (k * numOfPeople));
     }
     
-    public  TreeVertex buildVertexState(Pair currentPair, TreeVertex currentState) {
+    public  TreeVertex buildVertexState(Pair currentPair, TreeVertex currentState,Boolean isHuristic) {
     	int deadline;
     	int peopleNotSaved=currentState.getState().getPeopleToSave();
     	int peopleOn=currentState.getState().getPeopleOn();
@@ -134,14 +138,14 @@ public class Agents {
     			peopleNotSaved=currentState.getState().getPeopleToSave()-currentState.getState().getPeopleOn();
     	}
     	else {
-    		if(!isParentOf(currentState, currentPair.getVertex()))
+    		if((!isParentOf(currentState, currentPair.getVertex()))&&(!isHuristic))
     			peopleOn=peopleOn+currentPair.getVertex().getPeople();
     		peopleNotSaved=currentState.getState().getPeopleToSave();
     	}
         newVertex = new TreeVertex(new AgentState(currentPair.getVertex(),deadline,peopleNotSaved),  //build new vertex and state
                 currentState, currentState.getCost() + currentPair.getWeight());
         newVertex.getState().setPeopleOn(peopleOn);
-        return setEvalFanc(newVertex);
+        return newVertex;
     }
 
     public  TreeVertex setEvalFanc(TreeVertex treeVertex) {
