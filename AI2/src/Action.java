@@ -6,12 +6,12 @@ public class Action {
 	private Vertex EdgeToBlock;
 	private int peopleOnCurrV;
 	
-	public Action(int deadline,int peopleSaved, Vertex vlocation,Vertex EdgeToBlock, int peopleOnCurrV) {
+	public Action(int deadline,int peopleSaved, Vertex vlocation) {
 		this.deadline = deadline;
 		this.peopleSaved = peopleSaved;
 		this.vertexLocation = vlocation;
-		this.EdgeToBlock = EdgeToBlock;
-		this.peopleOnCurrV = peopleOnCurrV;
+//		this.EdgeToBlock = EdgeToBlock;
+//		this.peopleOnCurrV = peopleOnCurrV;
 	}
 ///////////////////////////////// UPDATE GETERS SETERS!!!! /////////////////////////////////
 
