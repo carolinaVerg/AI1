@@ -2,17 +2,20 @@ import java.util.Iterator;
 
 public class TreeVertex implements Comparable<TreeVertex>{
 	private AgentState State;
+	private AgentState otherAgentState;
 	private TreeVertex Parent;
 	private int Cost; // g
 	private int hueristicVal; // h
 	private int evalNum;  // f = h + g
+	private int value = 0;
 
-	public TreeVertex(AgentState State,TreeVertex Parent,int Cost) {
+	public TreeVertex(AgentState State,AgentState otherAgentState,TreeVertex Parent,int Cost) {
 		this.State=State;
 		this.Parent=Parent;
 		this.Cost=Cost;
 		this.evalNum=0;
 		this.hueristicVal = 0;
+		this.otherAgentState = otherAgentState;
 	}
 
 
@@ -117,6 +120,30 @@ public class TreeVertex implements Comparable<TreeVertex>{
 
 	public void setEvalNum(int evalNum) {
 		this.evalNum = evalNum;
+	}
+
+
+
+	public AgentState getOtherAgentState() {
+		return otherAgentState;
+	}
+
+
+
+	public void setOtherAgentState(AgentState otherAgentState) {
+		this.otherAgentState = otherAgentState;
+	}
+
+
+
+	public int getValue() {
+		return value;
+	}
+
+
+
+	public void setValue(int value) {
+		this.value = value;
 	}
 
 }

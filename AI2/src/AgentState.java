@@ -1,15 +1,20 @@
+import java.util.LinkedList;
 
 public class AgentState {
 	protected Vertex vertex;
 	protected int peopleOn;
 	protected int peopleToSave;
+	protected int peopleSaved;
 	protected int deadLine;
-	public AgentState(Vertex vertex,int deadline,int peopleToSave) {
+	private LinkedList<Vertex> Vertices;
+	
+	public AgentState(Vertex vertex,int deadline,int peopleToSave,LinkedList Ver) {
 		// update the state?
 		this.vertex=vertex;
 		this.deadLine = deadline;
 		this.peopleToSave = peopleToSave;
 		this.peopleOn=0;
+		this.Vertices=Ver;
 	}
 	
 	public Vertex getVertex() {
@@ -41,6 +46,22 @@ public class AgentState {
             return  true;
         }
 		return false;
+	}
+
+	public int getPeopleSaved() {
+		return peopleSaved;
+	}
+
+	public void setPeopleSaved(int peopleSaved) {
+		this.peopleSaved = peopleSaved;
+	}
+
+	public LinkedList<Vertex> getVertices() {
+		return Vertices;
+	}
+
+	public void setVertices(LinkedList<Vertex> vertices) {
+		Vertices = vertices;
 	}
 
 }

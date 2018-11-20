@@ -7,6 +7,7 @@ public class main {
     public static Graph world=null;
     public static int bignum=0;
     public static int numOfExpands = 0;
+    public static int gameType=0;
     // K
     //update messages in the begin
     //simulator
@@ -49,25 +50,24 @@ public class main {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        Scanner reader = new Scanner(System.in);  // Reading from System.in
         vNoOps = world.getVerticesNum();
         System.out.println("enter K const:");
-        Scanner reader = new Scanner(System.in);  // Reading from System.in
         kConst = Integer.parseInt(reader.nextLine());
+        System.out.println("press 1 for an adversarial ");
+        System.out.println("press 2 for a semi-cooperative game");
+        System.out.println("press 3 for a fully cooperative");
+       
+        gameType =Integer.parseInt(reader.nextLine());
         return world;
     }
 
     private static Agents[] initializeAgents(Graph world) {
-	    System.out.println("how many agents?");
-        Scanner reader = new Scanner(System.in);  // Reading from System.in
-        int n = Integer.parseInt(reader.nextLine());
-        Agents agents[] = new Agents[n];
+    	Scanner reader = new Scanner(System.in); 
+        Agents agents[] = new Agents[2];
         String[] input;
         System.out.println("press 1 for Human agent");
-        System.out.println("press 2 for Greedy agent");
-        System.out.println("press 3 for Vandal agent");
-        System.out.println("press 4 for Greedy Search agent");
-        System.out.println("press 5 for A* agent");
-        System.out.println("press 6 for Real time A* agent");
+        System.out.println("press 2 for game tree search agent");
         int peopleToSave= world.getPeopleNotRescude();
         for (int i = 0; i < agents.length; i++) {
             System.out.format("please choose the %d'th agent followed by starting position\n", i+1);
@@ -76,57 +76,48 @@ public class main {
             int deadline = world.getDeadLine();
             switch (input[0]) {
                 case "1":
-                    agents[i] = new HumanAgent(new AgentState(startV,deadline,peopleToSave));
+                    agents[i] = new HumanAgent(new AgentState(startV,deadline,peopleToSave, world.getVertices()));
                     break;
                 case "2":
-                    agents[i] = new GreedyAgent(new AgentState(startV,deadline,peopleToSave));
+                    agents[i] = new GameTreeSearchAgent(new AgentState(startV,deadline,peopleToSave, world.getVertices()));
                     break;
-                case "3":
-                    agents[i] = new VandalAgent(new AgentState(startV,deadline,0));
-                    break;
-                case "4":
-                    agents[i] = new GreedySerchAgent(new AgentState(startV,deadline,peopleToSave));
-                    break;
-                case "5":
-                    agents[i] = new AStarAgent(new AgentState(startV,deadline,peopleToSave));
-                    break;
-                case "6":
-                    System.out.println("Enter the threshold expand limit");
-                    int expLimit = reader.nextInt();
-                    agents[i] = new RealTimeAStarAgent(new AgentState(startV,deadline,peopleToSave),expLimit);
-                    break;
-
+          
                     default:
                         break;
             }
         }
         return agents;
+        
     }
 
     public static void simulator‬‬(Graph world ,Agents[] agents) {
-		Graph state=world;
-		Action newAction;
-		while (world.getDeadLine() > 0 && world.getPeopleNotRescude()>0) {
-		    for(Agents a: agents) {
-		        if(world.getDeadLine() > 0 ) {
-                    newAction = a.agentFunc(world.getDeadLine(), world.getPeopleNotRescude());
-                    updateWorld(newAction, world);
-                    displayAgentInWorld(a);
-                    //display current state
-                }
-			}
-		}
-		displayWorld(world);
-		// print world at deadline
-	}
+ 		Graph state=world;
+ 		Action newAction;
+ 		while (world.getDeadLine() > 0 && world.getPeopleNotRescude()>0) {
+ 		    for(int i=0; i<agents.length; i++) {
+ 		    	Agents a=agents[i];
+ 		    	
+ 		        if(world.getDeadLine() > 0 ) {
+                     newAction = a.agentFunc(world.getDeadLine(), world.getPeopleNotRescude(),agents[(i+1)%2].getState());
+                     updateWorld(newAction, world);
+                     displayAgentInWorld(a,i+1);
+                     //display current state
+                 }
+ 			}
+ 		}
+ 		displayWorld(world);
+ 		// print world at end of deadline
+     }
 
-    private static void displayAgentInWorld(Agents agent) {
+    private static void displayAgentInWorld(Agents agent,int playerNum) {
         System.out.println("--------------------------------");
         System.out.format("Current deadline: %d\n", main.world.getDeadLine());
+        System.out.format("Player number :%d",playerNum);
 	    System.out.println("Agent State:");
 	    System.out.format("current  vertex:           %d\n",agent.State.getVertex().getId());
         System.out.format("Number of people on agent: %d\n",agent.State.getPeopleOn());
         System.out.format("Number of people to save:  %d\n",agent.State.getPeopleToSave());
+        System.out.format("Number of people saved:       %d\n",agent.getState().getPeopleSaved());
     }
 
     private static void displayWorld(Graph world) {
