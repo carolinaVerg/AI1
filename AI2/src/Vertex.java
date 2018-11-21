@@ -16,6 +16,30 @@ public class Vertex {
 		this.Edges= new LinkedList<>();
 	}
 	
+	public static LinkedList<Vertex>verticesDeepCopy(LinkedList<Vertex> vertices){
+		 LinkedList<Vertex> newVertices=new LinkedList<>();
+		 Iterator<Vertex> verIter=vertices.listIterator(0);
+		 Vertex curentVer;
+		 Vertex newVer;
+		 while(verIter.hasNext()) {
+			 curentVer=verIter.next();
+			 newVer=new Vertex(curentVer.getPeople(), curentVer.isIsShelter(), curentVer.getId());
+			 newVertices.add(newVer);
+		 }
+		 Iterator<Vertex> newVerIter=newVertices.listIterator(0);
+		 Iterator<Pair> edgeIter;
+		 while(newVerIter.hasNext()) {
+			 curentVer=newVerIter.next();
+			 edgeIter=vertices.get(curentVer.getId()).getEdges().listIterator(0);
+			 Pair currentEdge;
+			 while(edgeIter.hasNext()) {
+				currentEdge=edgeIter.next();
+				curentVer.addEdge(currentEdge.getWeight(),newVertices.get(currentEdge.getVertex().Id));
+			 }
+		 }
+		 return newVertices;
+	}
+	
 	
 	
 	public void addEdge(int weight, Vertex v) {

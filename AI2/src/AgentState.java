@@ -14,7 +14,7 @@ public class AgentState {
 		this.deadLine = deadline;
 		this.peopleToSave = peopleToSave;
 		this.peopleOn=0;
-		this.Vertices=Ver;
+		this.Vertices=Vertex.verticesDeepCopy(Ver);
 	}
 	
 	public Vertex getVertex() {

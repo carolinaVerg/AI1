@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.ArrayList;
 
 public class Agents {
@@ -8,7 +9,7 @@ public class Agents {
         this.State = state;
     }
 
-    public Action agentFunc(int deadLine, int peopleToSave,AgentState otherAgent) {
+    public Action agentFunc(int deadLine, int peopleToSave,AgentState otherAgent,LinkedList<Vertex> Vertices) {
         return null;
     }
 

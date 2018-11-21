@@ -8,7 +8,8 @@ public class GameTreeSearchAgent extends Agents{
 		// TODO Auto-generated constructor stub
 	}
 @Override
-	 public Action agentFunc(int deadLine, int peopleToSave,AgentState otherAgent) {
+	 public Action agentFunc(int deadLine, int peopleToSave,AgentState otherAgent,LinkedList<Vertex> vertices) {
+		   this.getState().setVertices(vertices);
 	       switch(main.gameType) {
 	       case 1:
 	    	   return alphaBetaDecision(deadLine, peopleToSave , otherAgent);
