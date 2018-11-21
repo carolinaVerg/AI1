@@ -1,27 +1,27 @@
 import java.util.LinkedList;
 
 public class AgentState {
-	protected Vertex vertex;
+	protected int vertexId;
 	protected int peopleOn;
 	protected int peopleToSave;
 	protected int peopleSaved;
 	protected int deadLine;
 	private LinkedList<Vertex> Vertices;
 	
-	public AgentState(Vertex vertex,int deadline,int peopleToSave,LinkedList Ver) {
-		// update the state?
-		this.vertex=vertex;
+	public AgentState(int id,int deadline,int peopleToSave,LinkedList Ver) {
+		LinkedList<Vertex>copyList=Vertex.verticesDeepCopy(Ver);
+		this.vertexId=id;
 		this.deadLine = deadline;
 		this.peopleToSave = peopleToSave;
 		this.peopleOn=0;
-		this.Vertices=Vertex.verticesDeepCopy(Ver);
+		this.Vertices=copyList;
 	}
 	
 	public Vertex getVertex() {
-		return vertex;
+		return Vertices.get(vertexId);
 	}
-	public void setVertex(Vertex vertex) {
-		this.vertex = vertex;
+	public void setVertex(int vertex) {
+		this.vertexId = vertex;
 	}
 	public int getPeopleOn() {
 		return peopleOn;

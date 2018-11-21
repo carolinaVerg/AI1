@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Scanner;
 public class HumanAgent extends Agents {
 
@@ -8,7 +9,7 @@ public class HumanAgent extends Agents {
     }
 
     @Override
-    public Action agentFunc(int deadline, int peopleToSave, AgentState otherAgent){
+    public Action agentFunc(int deadline, int peopleToSave, AgentState otherAgent,LinkedList<Vertex> vertices){
         printHeadlineMsg(deadline);     // prints current state
         return getNextAction(deadline,peopleToSave);
     }
@@ -22,21 +23,21 @@ public class HumanAgent extends Agents {
         int act = Integer.parseInt(reader.nextLine());
         if(act == -1){ // return 'no-op' action
             this.State.setDeadLine(deadline - 1);
-            return new Action(this.State.getDeadLine(),peopleSaved,null,null,0);
+            return new Action(this.State.getDeadLine(),peopleSaved,null);
         }
         else{ // return 'move' action
             Vertex nextV = this.State.getVertex().getNeighborByVid(act);
             // state updates
             peopleSaved = updateState(deadline,peopleToSave,nextV);
             // action
-            return new Action(State.getDeadLine(),peopleSaved,nextV,null,0);
+            return new Action(State.getDeadLine(),peopleSaved,nextV);
         }
     }
 
     public int updateState(int deadline, int peopleToSave, Vertex nextV){ // returns numOfPeople saved
         int peopleSaved = 0;
-        this.State.setDeadLine(deadline - evalCost(this.State.vertex.getEdgeWeight(nextV.getId()),this.State.getPeopleOn(),main.kConst));
-        this.State.setVertex(nextV);
+        this.State.setDeadLine(deadline - evalCost(this.State.getVertex().getEdgeWeight(nextV.getId()),this.State.getPeopleOn(),main.kConst));
+        this.State.setVertex(nextV.getId());
         if(nextV.isIsShelter()){
             if(this.State.getDeadLine() >= 0) {
                 peopleSaved = this.State.getPeopleOn();

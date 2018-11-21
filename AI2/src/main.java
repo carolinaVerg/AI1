@@ -76,10 +76,10 @@ public class main {
             int deadline = world.getDeadLine();
             switch (input[0]) {
                 case "1":
-                    agents[i] = new HumanAgent(new AgentState(startV,deadline,peopleToSave, world.getVertices()));
+                    agents[i] = new HumanAgent(new AgentState(startV.getId(),deadline,peopleToSave, world.getVertices()));
                     break;
                 case "2":
-                    agents[i] = new GameTreeSearchAgent(new AgentState(startV,deadline,peopleToSave, world.getVertices()));
+                    agents[i] = new GameTreeSearchAgent(new AgentState(startV.getId(),deadline,peopleToSave, world.getVertices()));
                     break;
           
                     default:
@@ -98,7 +98,7 @@ public class main {
  		    	Agents a=agents[i];
  		    	
  		        if(world.getDeadLine() > 0 ) {
-                     newAction = a.agentFunc(world.getDeadLine(), world.getPeopleNotRescude(),agents[(i+1)%2].getState());
+                     newAction = a.agentFunc(world.getDeadLine(), world.getPeopleNotRescude(),agents[(i+1)%2].getState(),world.getVertices());
                      updateWorld(newAction, world);
                      displayAgentInWorld(a,i+1);
                      //display current state
@@ -136,13 +136,8 @@ public class main {
 		world.setPeopleNotRescude(world.getPeopleNotRescude() -newAction.getPeopleSaved());
 		world.setPeopleRescude(world.getPeopleRescude()+ newAction.getPeopleSaved());
 		world.setDeadLine(newAction.getDeadline());
-        if(newAction.getEdgeToBlock() != null){ // vandal agent case
-            world.removeEdge(newAction.getVertexLocation().getId(),newAction.getEdgeToBlock().getId());
-        }
-        else{
-            if(newAction.getVertexLocation() != null) {
-                world.getVertexById(newAction.getVertexLocation().getId()).setPeople(0);
-            }
+        if(newAction.getVertexLocation() != null) {
+            world.getVertexById(newAction.getVertexLocation().getId()).setPeople(0);  
         }
 	}
 
