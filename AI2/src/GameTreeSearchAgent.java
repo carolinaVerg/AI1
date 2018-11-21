@@ -67,10 +67,10 @@ for(AgentState move: moves) {
 	if(currentMax<MinOfMax) {
 		MinOfMax=currentMax;
 	}
-	if(MinOfMax<bestMin)
-		return MinOfMax;
 	if(MinOfMax<bestMax)
-		bestMax=MinOfMax;
+		return MinOfMax;
+	if(MinOfMax<bestMin)
+		bestMin=MinOfMax;
 }
 return MinOfMax;
 
