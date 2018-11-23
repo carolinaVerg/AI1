@@ -95,8 +95,7 @@ public class main {
  		Action newAction;
  		while (world.getDeadLine() > 0 && world.getPeopleNotRescude()>0) {
  		    for(int i=0; i<agents.length; i++) {
- 		    	Agents a=agents[i];
- 		    	
+ 		    	Agents a=agents[i];	    	
  		        if(world.getDeadLine() > 0 ) {
                      newAction = a.agentFunc(world.getDeadLine(), world.getPeopleNotRescude(),agents[(i+1)%2].getState(),world.getVertices());
                      updateWorld(newAction, world);

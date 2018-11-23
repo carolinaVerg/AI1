@@ -28,7 +28,7 @@ public class Agents {
     
 	protected AgentState buildState(Pair currentNeighbor, AgentState prevState) {
 		if(currentNeighbor==null)
-			return new AgentState(prevState.getVertex().getId(),prevState.getDeadLine(),prevState.getPeopleToSave(),prevState.getVertices());
+			return new AgentState(prevState.getVertex().getId(),prevState.getDeadLine()-1,prevState.getPeopleToSave(),prevState.getVertices());
 		int deadline = prevState.getDeadLine() - evalCost(currentNeighbor.getWeight(),main.kConst,prevState.getPeopleOn());
 		int peopleNotSaved = prevState.getPeopleToSave();
 		int peopleSaved=prevState.getPeopleSaved();
@@ -46,7 +46,7 @@ public class Agents {
 		AgentState returnAgentState = new AgentState(currentNeighbor.getVertex().getId(),deadline,peopleNotSaved,prevState.getVertices());
 		returnAgentState.setPeopleOn(peopleOn);
 		returnAgentState.setPeopleSaved(peopleSaved);
-		returnAgentState.getVertices().get(currentNeighbor.getVertex().getId()).setPeople(0);
+		returnAgentState.getVertices().get(currentNeighbor.getVertex().getId()-1).setPeople(0);
 		return returnAgentState;
 	}
 	

@@ -28,6 +28,7 @@ public Action alphaBetaDecision(int deadLine, int peopleToSave, AgentState other
 	int currentMin=0;
 	AgentState bestNextState=null;
 	for(AgentState move: moves) {
+		otherAgentState.updateState(move);
 		currentMin=minValue(move,otherAgentState, 0, 0,1);
 		if(currentMin>MaxOfMin) {	// saving the greatest value of all
 			MaxOfMin=currentMin;
@@ -44,6 +45,7 @@ int MaxOfMin=Integer.MIN_VALUE;
 LinkedList<AgentState> moves=generateNextMoveState(maxState);
 int currentMin=0;
 for(AgentState move: moves) {
+	minState.updateState(move);
 	currentMin=minValue(move,minState, bestMax, bestMin,cutoffDepth+1);
 	if(currentMin>MaxOfMin) {
 		MaxOfMin=currentMin;
@@ -63,6 +65,7 @@ int MinOfMax=Integer.MAX_VALUE;
 LinkedList<AgentState> moves=generateNextMoveState(minState);
 int currentMax=0;
 for(AgentState move: moves) {
+	maxState.updateState(move);
 	currentMax=maxValue(maxState,move, bestMax, bestMin,cutoffDepth+1);
 	if(currentMax<MinOfMax) {
 		MinOfMax=currentMax;
@@ -136,8 +139,7 @@ private int heuristicFun(AgentState state) {
 	}
 	}
 private boolean cutOff(int cutoffDepth) {
-	// TODO Auto-generated method stub
-	return false;
+	return (cutoffDepth>20);
 }
 
 

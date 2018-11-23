@@ -18,7 +18,7 @@ public class AgentState {
 	}
 	
 	public Vertex getVertex() {
-		return Vertices.get(vertexId);
+		return Vertices.get(vertexId-1);
 	}
 	public void setVertex(int vertex) {
 		this.vertexId = vertex;
@@ -62,6 +62,14 @@ public class AgentState {
 
 	public void setVertices(LinkedList<Vertex> vertices) {
 		Vertices = vertices;
+	}
+
+	public void updateState(AgentState move) {
+		LinkedList<Vertex>copyList=Vertex.verticesDeepCopy(move.Vertices);
+		this.deadLine = move.deadLine;
+		this.peopleToSave = move.peopleToSave;
+		this.Vertices=copyList;
+		
 	}
 
 }

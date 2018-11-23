@@ -30,11 +30,11 @@ public class Vertex {
 		 Iterator<Pair> edgeIter;
 		 while(newVerIter.hasNext()) {
 			 curentVer=newVerIter.next();
-			 edgeIter=vertices.get(curentVer.getId()).getEdges().listIterator(0);
+			 edgeIter=vertices.get(curentVer.getId()-1).getEdges().listIterator(0);
 			 Pair currentEdge;
 			 while(edgeIter.hasNext()) {
 				currentEdge=edgeIter.next();
-				curentVer.addEdge(currentEdge.getWeight(),newVertices.get(currentEdge.getVertex().Id));
+				curentVer.addEdge(currentEdge.getWeight(),newVertices.get(currentEdge.getVertex().Id-1));
 			 }
 		 }
 		 return newVertices;
