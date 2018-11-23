@@ -64,10 +64,20 @@ public class AgentState {
 		Vertices = vertices;
 	}
 
-	public void updateState(AgentState move) {
+	public void updateStateOp(AgentState move) {
 		LinkedList<Vertex>copyList=Vertex.verticesDeepCopy(move.Vertices);
 		this.deadLine = move.deadLine;
 		this.peopleToSave = move.peopleToSave;
+		this.Vertices=copyList;
+		
+	}
+	public void updateMyState(AgentState newState) {
+		LinkedList<Vertex>copyList=Vertex.verticesDeepCopy(newState.getVertices());
+		this.vertexId=newState.getVertex().getId();
+		this.deadLine = newState.getDeadLine();
+		this.peopleToSave = newState.getPeopleToSave();
+		this.peopleSaved=newState.getPeopleSaved();
+		this.peopleOn=newState.getPeopleOn();
 		this.Vertices=copyList;
 		
 	}

@@ -99,7 +99,7 @@ public class main {
  		        if(world.getDeadLine() > 0 ) {
                      newAction = a.agentFunc(world.getDeadLine(), world.getPeopleNotRescude(),agents[(i+1)%2].getState(),world.getVertices());
                      updateWorld(newAction, world);
-                     displayAgentInWorld(a,i+1);
+                     displayAgentInWorld(a,i);
                      //display current state
                  }
  			}

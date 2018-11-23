@@ -10,9 +10,10 @@ public class GameTreeSearchAgent extends Agents{
 @Override
 	 public Action agentFunc(int deadLine, int peopleToSave,AgentState otherAgent,LinkedList<Vertex> vertices) {
 		   this.getState().setVertices(vertices);
+		   Action actionToRet=null;
 	       switch(main.gameType) {
 	       case 1:
-	    	   return alphaBetaDecision(deadLine, peopleToSave , otherAgent);
+	    	   actionToRet=alphaBetaDecision(deadLine, peopleToSave , otherAgent);
 	       case 2:
 	    	   break;
 	       case 3:
@@ -20,7 +21,8 @@ public class GameTreeSearchAgent extends Agents{
 	    	   default:
 	    		   
 	       }
-	       return null;
+	       
+	       return actionToRet;
 	    }
 public Action alphaBetaDecision(int deadLine, int peopleToSave, AgentState otherAgentState) {
 	LinkedList<AgentState> moves=generateNextMoveState(this.getState());
@@ -28,14 +30,14 @@ public Action alphaBetaDecision(int deadLine, int peopleToSave, AgentState other
 	int currentMin=0;
 	AgentState bestNextState=null;
 	for(AgentState move: moves) {
-		otherAgentState.updateState(move);
+		otherAgentState.updateStateOp(move);
 		currentMin=minValue(move,otherAgentState, Integer.MIN_VALUE, Integer.MAX_VALUE,1);
 		if(currentMin>MaxOfMin) {	// saving the greatest value of all
 			MaxOfMin=currentMin;
 			bestNextState=move;
 		}
 	}
-	
+	this.getState().updateMyState(bestNextState);
 	return createAction(bestNextState);
 }
 private int maxValue(AgentState maxState,AgentState minState, int bestMax, int bestMin,int cutoffDepth) {  //returns a heuristicValue of the cutoff
@@ -45,7 +47,7 @@ int MaxOfMin=Integer.MIN_VALUE;
 LinkedList<AgentState> moves=generateNextMoveState(maxState);
 int currentMin=0;
 for(AgentState move: moves) {
-	minState.updateState(move);
+	minState.updateStateOp(move);
 	currentMin=minValue(move,minState, bestMax, bestMin,cutoffDepth+1);
 	if(currentMin>MaxOfMin) {
 		MaxOfMin=currentMin;
@@ -65,7 +67,7 @@ int MinOfMax=Integer.MAX_VALUE;
 LinkedList<AgentState> moves=generateNextMoveState(minState);
 int currentMax=0;
 for(AgentState move: moves) {
-	maxState.updateState(move);
+	maxState.updateStateOp(move);
 	currentMax=maxValue(maxState,move, bestMax, bestMin,cutoffDepth+1);
 	if(currentMax<MinOfMax) {
 		MinOfMax=currentMax;
@@ -139,7 +141,7 @@ private int heuristicFun(AgentState state) {
 	}
 	}
 private boolean cutOff(int cutoffDepth) {
-	return (cutoffDepth>20);
+	return (cutoffDepth>8);
 }
 
 
