@@ -29,7 +29,7 @@ public Action alphaBetaDecision(int deadLine, int peopleToSave, AgentState other
 	int MaxOfMin=Integer.MIN_VALUE;
 	int currentMin=0;
 	AgentState bestNextState=null;
-	AgentState curentMove=new AgentState(0, 0, 0, null);
+	AgentState curentMove=new AgentState(0, 0, 0, this.getState().getVertices());
 	for(AgentState move: moves) {
 		otherAgentState.updateStateOp(move);
 		curentMove.updateMyState(move);
