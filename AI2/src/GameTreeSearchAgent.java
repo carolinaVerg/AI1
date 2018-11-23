@@ -14,6 +14,7 @@ public class GameTreeSearchAgent extends Agents{
 		   this.getState().setVertices(vertices);
 		   AgentState bestNextState=null;
 		   AgentState otherAgentCopy=new AgentState(0, 0, 0, vertices);
+		   Action actionToRet=null;;
 		   otherAgentCopy.updateMyState(otherAgent);
 	       switch(main.gameType) {
 	       case 1:
@@ -25,9 +26,9 @@ public class GameTreeSearchAgent extends Agents{
 	    	   default:
 	    		   
 	       }
-	       
-	    this.getState().updateMyState(bestNextState);
-	   	return createAction(bestNextState);
+	       actionToRet=createAction(bestNextState);
+	       this.getState().updateMyState(bestNextState);
+	   	   return actionToRet;
 	       
 	    }
 public AgentState alphaBetaDecision(int deadLine, int peopleToSave, AgentState otherAgentState) {
