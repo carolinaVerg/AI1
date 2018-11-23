@@ -48,6 +48,54 @@ public class Agents {
 		returnAgentState.getVertices().get(currentNeighbor.getVertex().getId()).setPeople(0);
 		return returnAgentState;
 	}
+	
+    public  AgentState TreeSearch(BinaryHeap<TreeVertex> fringe, String goal,  int id) { // finds shortest path according to current goal
+    	AgentState currState=null;
+    	TreeVertex current=null;
+        while (!fringe.isEmpty()) {
+            current = fringe.remove(); // takes first from the priority queue  
+            currState=current.getState();
+            switch (goal) {
+                case "shelter":
+                    if (currState.getVertex().isIsShelter()) {
+                        return currState;
+                    }
+                    else {
+                        Expand(current, fringe);
+                        break;
+                    }
+
+                case "id":
+                    if (currState.getVertex().getId()==id){
+                    	currState.setPeopleOn(current.getState().getVertex().getPeople());
+                        return  currState;
+                    }
+                    else{
+                        Expand(current, fringe);
+                        break;
+                    }
+                    default:break;
+            }
+        }
+        return null;
+ //       return findNextVer(source,currState);
+
+    } //returns next v for the action
+    public  BinaryHeap<TreeVertex> Expand(TreeVertex currentState, BinaryHeap<TreeVertex> fringe ) { // returns updated fringe
+    	main.numOfExpands ++;
+        Iterator<Pair> iter = currentState.getState().getVertex().getEdges().listIterator(0);
+        Pair currentPair;
+        TreeVertex newVertex;
+        while (iter.hasNext()) {
+            currentPair = iter.next();
+            newVertex=new TreeVertex(buildState(currentPair, currentState.getState()),currentState,currentState.getCost()+ currentPair.getWeight());
+            fringe.add(newVertex);
+
+        }
+        return fringe;
+    }
+
+   
 
 
 
