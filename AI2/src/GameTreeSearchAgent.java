@@ -9,11 +9,15 @@ public class GameTreeSearchAgent extends Agents{
 	}
 @Override
 	 public Action agentFunc(int deadLine, int peopleToSave,AgentState otherAgent,LinkedList<Vertex> vertices) {
+		   this.getState().setDeadLine(deadLine);
+		   this.getState().setPeopleToSave(peopleToSave);
 		   this.getState().setVertices(vertices);
-		   Action actionToRet=null;
+		   AgentState bestNextState=null;
+		   AgentState otherAgentCopy=new AgentState(0, 0, 0, vertices);
+		   otherAgentCopy.updateMyState(otherAgent);
 	       switch(main.gameType) {
 	       case 1:
-	    	   actionToRet=alphaBetaDecision(deadLine, peopleToSave , otherAgent);
+	    	   bestNextState=alphaBetaDecision(deadLine, peopleToSave , otherAgentCopy);
 	       case 2:
 	    	   break;
 	       case 3:
@@ -22,9 +26,11 @@ public class GameTreeSearchAgent extends Agents{
 	    		   
 	       }
 	       
-	       return actionToRet;
+	    this.getState().updateMyState(bestNextState);
+	   	return createAction(bestNextState);
+	       
 	    }
-public Action alphaBetaDecision(int deadLine, int peopleToSave, AgentState otherAgentState) {
+public AgentState alphaBetaDecision(int deadLine, int peopleToSave, AgentState otherAgentState) {
 	LinkedList<AgentState> moves=generateNextMoveState(this.getState());
 	int MaxOfMin=Integer.MIN_VALUE;
 	int currentMin=0;
@@ -39,8 +45,7 @@ public Action alphaBetaDecision(int deadLine, int peopleToSave, AgentState other
 			bestNextState=move;
 		}
 	}
-	this.getState().updateMyState(bestNextState);
-	return createAction(bestNextState);
+	return bestNextState;
 }
 private int maxValue(AgentState maxState,AgentState minState, int bestMax, int bestMin,int cutoffDepth) {  //returns a heuristicValue of the cutoff
 if(cutOff(cutoffDepth)|| maxState.isGoalState())
