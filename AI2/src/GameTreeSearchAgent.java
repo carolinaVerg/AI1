@@ -29,7 +29,7 @@ public Action alphaBetaDecision(int deadLine, int peopleToSave, AgentState other
 	AgentState bestNextState=null;
 	for(AgentState move: moves) {
 		otherAgentState.updateState(move);
-		currentMin=minValue(move,otherAgentState, 0, 0,1);
+		currentMin=minValue(move,otherAgentState, Integer.MIN_VALUE, Integer.MAX_VALUE,1);
 		if(currentMin>MaxOfMin) {	// saving the greatest value of all
 			MaxOfMin=currentMin;
 			bestNextState=move;
@@ -39,7 +39,7 @@ public Action alphaBetaDecision(int deadLine, int peopleToSave, AgentState other
 	return createAction(bestNextState);
 }
 private int maxValue(AgentState maxState,AgentState minState, int bestMax, int bestMin,int cutoffDepth) {  //returns a heuristicValue of the cutoff
-if(cutOff(cutoffDepth))
+if(cutOff(cutoffDepth)|| maxState.isGoalState())
 	return evalFun(maxState);
 int MaxOfMin=Integer.MIN_VALUE;
 LinkedList<AgentState> moves=generateNextMoveState(maxState);
@@ -59,7 +59,7 @@ return MaxOfMin;
 
 }
 private int minValue(AgentState maxState,AgentState minState, int bestMax, int bestMin, int cutoffDepth) {
-if(cutOff(cutoffDepth))
+if(cutOff(cutoffDepth)|| minState.isGoalState())
 	return evalFun(minState);
 int MinOfMax=Integer.MAX_VALUE;
 LinkedList<AgentState> moves=generateNextMoveState(minState);
