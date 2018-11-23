@@ -29,9 +29,11 @@ public Action alphaBetaDecision(int deadLine, int peopleToSave, AgentState other
 	int MaxOfMin=Integer.MIN_VALUE;
 	int currentMin=0;
 	AgentState bestNextState=null;
+	AgentState curentMove=new AgentState(0, 0, 0, null);
 	for(AgentState move: moves) {
 		otherAgentState.updateStateOp(move);
-		currentMin=minValue(move,otherAgentState, Integer.MIN_VALUE, Integer.MAX_VALUE,1);
+		curentMove.updateMyState(move);
+		currentMin=minValue(curentMove,otherAgentState, Integer.MIN_VALUE, Integer.MAX_VALUE,1);
 		if(currentMin>MaxOfMin) {	// saving the greatest value of all
 			MaxOfMin=currentMin;
 			bestNextState=move;
