@@ -39,7 +39,7 @@ public Action alphaBetaDecision(int deadLine, int peopleToSave, AgentState other
 }
 private int maxValue(AgentState maxState,AgentState minState, int bestMax, int bestMin,int cutoffDepth) {  //returns a heuristicValue of the cutoff
 if(cutOff(cutoffDepth))
-	return heuristicFun(maxState);
+	return evalFun(maxState);
 int MaxOfMin=Integer.MIN_VALUE;
 LinkedList<AgentState> moves=generateNextMoveState(maxState);
 int currentMin=0;
@@ -58,7 +58,7 @@ return MaxOfMin;
 }
 private int minValue(AgentState maxState,AgentState minState, int bestMax, int bestMin, int cutoffDepth) {
 if(cutOff(cutoffDepth))
-	return heuristicFun(minState);
+	return evalFun(minState);
 int MinOfMax=Integer.MAX_VALUE;
 LinkedList<AgentState> moves=generateNextMoveState(minState);
 int currentMax=0;
@@ -92,11 +92,48 @@ return MinOfMax;
 	movesList.add(buildState(null,stateToGen)); // add noOP
 	return movesList;
 }
-
+private int evalFun(AgentState state) {
+	int evalVal=state.getPeopleSaved()-heuristicFun(state);
+	return evalVal;
+}
 
 private int heuristicFun(AgentState state) {
-		// TODO Auto-generated method stub
-		return 0;
+	int hueristicVal=0;
+	if(State.isGoalState()) {
+		return hueristicVal;
+	}
+	else {
+		int peopleCantBeRescude=0;
+		int deadLine=state.deadLine;
+		GameTreeSearchAgent agent= new GameTreeSearchAgent(state);
+		AgentState newPeopleState = null;
+		AgentState newShelterState = null;
+		Iterator<Vertex> iter = main.world.getVertices().listIterator(0);
+        Vertex currentVertex;
+        BinaryHeap< TreeVertex> fring;
+        while (iter.hasNext()) {
+        	fring=new BinaryHeap<>();
+			fring.add(new TreeVertex(state, null, 0) );
+        	newPeopleState = null;
+        	currentVertex = iter.next();
+        	if(currentVertex .getPeople()>0 ) {
+        		newPeopleState=agent.TreeSearch(fring, "id",  currentVertex .getId());  //serch for people
+	        	if(newPeopleState==null)
+	        		peopleCantBeRescude=peopleCantBeRescude+currentVertex .getPeople();
+	        	else {
+	        		fring=new BinaryHeap<>();
+	    			fring.add(new TreeVertex(newPeopleState, null, 0) );
+	        		newShelterState=agent.TreeSearch(fring, "shelter", 0);
+	        		if(newShelterState==null||newShelterState.getDeadLine()<0)	// people canot be saved
+	        			peopleCantBeRescude=peopleCantBeRescude+currentVertex .getPeople();	
+	        	}
+        	}
+        		
+        	
+        }
+        hueristicVal=main.bignum* peopleCantBeRescude;
+        return hueristicVal;
+	}
 	}
 private boolean cutOff(int cutoffDepth) {
 	// TODO Auto-generated method stub

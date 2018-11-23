@@ -45,6 +45,7 @@ public class Agents {
 		}
 		AgentState returnAgentState = new AgentState(currentNeighbor.getVertex().getId(),deadline,peopleNotSaved,prevState.getVertices());
 		returnAgentState.setPeopleOn(peopleOn);
+		returnAgentState.setPeopleSaved(peopleSaved);
 		returnAgentState.getVertices().get(currentNeighbor.getVertex().getId()).setPeople(0);
 		return returnAgentState;
 	}
@@ -64,7 +65,6 @@ public class Agents {
                         Expand(current, fringe);
                         break;
                     }
-
                 case "id":
                     if (currState.getVertex().getId()==id){
                     	currState.setPeopleOn(current.getState().getVertex().getPeople());
