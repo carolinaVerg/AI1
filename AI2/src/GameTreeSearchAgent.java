@@ -156,7 +156,11 @@ public class GameTreeSearchAgent extends Agents {
         if(mode==3)
     		evalVal = evalVal+( stateOther.getPeopleSaved() - heuristicFun(stateOther));
         if(heuristicCurrent == 0){
-            evalVal = evalVal - stateCurrent.getPeopleToSave();
+            if(mode==3){
+                evalVal = evalVal - stateCurrent.getPeopleToSave()*2;
+            }else{
+                evalVal = evalVal - stateCurrent.getPeopleToSave();
+            }
         }
         return evalVal;
     }
