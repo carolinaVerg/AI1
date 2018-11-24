@@ -14,13 +14,12 @@ public class main {
     //GUI
 
 	public static void main(String[] args) {
-		File file = new File("C:\\univercity\\courses\\semester5\\intro to AI\\programming assignments\\AI2\\AI2\\AI2\\src\\tests\\test1.txt"); //graph description
+		File file = new File("C:\\univercity\\courses\\semester5\\intro to AI\\programming assignments\\AI2\\AI2\\AI2\\src\\tests\\test3.txt"); //graph description
         BufferedReader br = null;
 		String st = "";
 		world = initWorld(br,world,st,file);
 		Agents agents[] = initializeAgents(world);
 		simulator‬‬(world,agents);
-
 	}
 
 	private static Graph initWorld(BufferedReader br, Graph world, String st, File file){
