@@ -20,13 +20,13 @@ public class GameTreeSearchAgent extends Agents {
         otherAgentCopy.updateMyState(otherAgent);
         switch (main.gameType) {
             case 1:
-                bestNextState = alphaBetaDecision(deadLine, peopleToSave, otherAgentCopy,false);
+                bestNextState = alphaBetaDecision(deadLine, peopleToSave, otherAgentCopy,1);
                 break;
             case 2:
-                bestNextState = alphaBetaDecision(deadLine, peopleToSave, otherAgentCopy,true);
+                bestNextState = alphaBetaDecision(deadLine, peopleToSave, otherAgentCopy,2);
                 break;
             case 3:
-                bestNextState = alphaBetaDecision(deadLine, peopleToSave, otherAgentCopy,true);
+                bestNextState = alphaBetaDecision(deadLine, peopleToSave, otherAgentCopy,3);
                 break;
             default:
 
@@ -37,7 +37,7 @@ public class GameTreeSearchAgent extends Agents {
 
     }
 
-    public AgentState alphaBetaDecision(int deadLine, int peopleToSave, AgentState otherAgentState,boolean maxMode) {
+    public AgentState alphaBetaDecision(int deadLine, int peopleToSave, AgentState otherAgentState,int mode) {
         LinkedList<AgentState> moves = generateNextMoveState(this.getState());
         int MaxOfMin = Integer.MIN_VALUE;
         int currentValue = 0;
@@ -46,15 +46,14 @@ public class GameTreeSearchAgent extends Agents {
         for (AgentState move : moves) {
             otherAgentState.updateStateOp(move);
             curentMove.updateMyState(move);
-            if(maxMode){
-                currentValue = oppMinMax(curentMove,otherAgentState,maxMode, Integer.MIN_VALUE,
+            if(mode==1){
+            	currentValue = oppMinMax(curentMove,otherAgentState,mode, Integer.MIN_VALUE,
+                        Integer.MAX_VALUE, 1);  
+            }
+            else {
+            	currentValue = oppMinMax(curentMove,otherAgentState,mode, Integer.MIN_VALUE,
                         Integer.MIN_VALUE, 1);
             }
-            else{
-                currentValue = oppMinMax(curentMove,otherAgentState,maxMode, Integer.MIN_VALUE,
-                        Integer.MAX_VALUE, 1);
-            }
-//            currentMin = minValue(curentMove, otherAgentState, Integer.MIN_VALUE, Integer.MAX_VALUE, 1);
             if (currentValue > MaxOfMin) {    // saving the greatest value of all
                 MaxOfMin = currentValue;
                 bestNextState = move;
@@ -63,23 +62,24 @@ public class GameTreeSearchAgent extends Agents {
         return bestNextState;
     }
 
-    private int oppMinMax(AgentState curentMove, AgentState otherAgentState, boolean maxMode,
+    private int oppMinMax(AgentState curentMove, AgentState otherAgentState, int mode,
                           int bestValue1, int bestValue2, int cutoffDepth) {
         int currentValue;
-        if (maxMode) {
-            currentValue = maxValue(curentMove, otherAgentState,
-                    bestValue1, bestValue2, cutoffDepth,maxMode);
-        }
-        else {
-            currentValue = minValue(curentMove, otherAgentState,
+        if (mode==1) {
+        	currentValue = minValue(curentMove, otherAgentState,
                     bestValue1, bestValue2, cutoffDepth);
         }
+        else {
+        	currentValue = maxValue(curentMove, otherAgentState,
+                    bestValue1, bestValue2, cutoffDepth,mode);
+        }
+        
         return currentValue;
     }
 
-    private int maxValue(AgentState maxState, AgentState minState, int bestMax, int bestMin, int cutoffDepth, boolean maxMode) {  //returns a heuristicValue of the cutoff
+    private int maxValue(AgentState maxState, AgentState minState, int bestMax, int bestMin, int cutoffDepth, int mode) {  //returns a heuristicValue of the cutoff
         if (cutOff(cutoffDepth) || maxState.isGoalState())
-            return evalFun(maxState);
+            return evalFun(maxState,minState,mode);
         int MaxOfMin = Integer.MIN_VALUE;
         LinkedList<AgentState> moves = generateNextMoveState(maxState);
         int currentValue = 0;
@@ -87,13 +87,14 @@ public class GameTreeSearchAgent extends Agents {
             minState.updateStateOp(move);
 
             // min-max OR max-max
-            if(maxMode){
-                currentValue = maxValue(move, minState, bestMax,
-                        bestMin, cutoffDepth + 1,maxMode);
+            if(mode==1){
+            	currentValue = minValue(move, minState, bestMax,
+                        bestMin, cutoffDepth + 1);
+                
             }
             else{
-                currentValue = minValue(move, minState, bestMax,
-                        bestMin, cutoffDepth + 1);
+            	currentValue = maxValue(move, minState, bestMax,
+                        bestMin, cutoffDepth + 1,mode);
             }
 
             //finding max value of opp
@@ -111,13 +112,13 @@ public class GameTreeSearchAgent extends Agents {
 
     private int minValue(AgentState maxState, AgentState minState, int bestMax, int bestMin, int cutoffDepth) {
         if (cutOff(cutoffDepth) || minState.isGoalState())
-            return evalFun(minState);
+            return evalFun(minState,maxState,1);
         int MinOfMax = Integer.MAX_VALUE;
         LinkedList<AgentState> moves = generateNextMoveState(minState);
         int currentMax = 0;
         for (AgentState move : moves) {
             maxState.updateStateOp(move);
-            currentMax = maxValue(maxState, move, bestMax, bestMin, cutoffDepth + 1,false);
+            currentMax = maxValue(maxState, move, bestMax, bestMin, cutoffDepth + 1,1);
             if (currentMax < MinOfMax) {
                 MinOfMax = currentMax;
             }
@@ -147,8 +148,10 @@ public class GameTreeSearchAgent extends Agents {
         return movesList;
     }
 
-    private int evalFun(AgentState state) {
-        int evalVal = state.getPeopleSaved() - heuristicFun(state);
+    private int evalFun(AgentState stateCurrent,AgentState stateOther, int mode) {
+    	int evalVal=stateCurrent.getPeopleSaved() - heuristicFun(stateCurrent);
+    	if(mode==3)
+    		evalVal = evalVal+( stateOther.getPeopleSaved() - heuristicFun(stateOther));
         return evalVal;
     }
 
