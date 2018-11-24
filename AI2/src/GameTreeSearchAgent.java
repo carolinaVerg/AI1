@@ -101,10 +101,12 @@ public class GameTreeSearchAgent extends Agents {
             if (currentValue > MaxOfMin) {
                 MaxOfMin = currentValue;
             }
-            if (MaxOfMin > bestMin)
-                return MaxOfMin;
-            if (MaxOfMin > bestMax)
-                bestMax = MaxOfMin;
+            if(mode==1) {
+                if (MaxOfMin > bestMin)
+                    return MaxOfMin;
+                if (MaxOfMin > bestMax)
+                    bestMax = MaxOfMin;
+            }
         }
         return MaxOfMin;
 
@@ -149,16 +151,20 @@ public class GameTreeSearchAgent extends Agents {
     }
 
     private int evalFun(AgentState stateCurrent,AgentState stateOther, int mode) {
-    	int evalVal=stateCurrent.getPeopleSaved()*main.bignum - heuristicFun(stateCurrent);
-    	if(mode==3)
+        int heuristicCurrent = heuristicFun(stateCurrent);
+    	int evalVal=stateCurrent.getPeopleSaved()*main.bignum - heuristicCurrent;
+        if(mode==3)
     		evalVal = evalVal+( stateOther.getPeopleSaved() - heuristicFun(stateOther));
+        if(heuristicCurrent == 0){
+            evalVal = evalVal - stateCurrent.getPeopleToSave();
+        }
         return evalVal;
     }
 
     private int heuristicFun(AgentState state) {
         int hueristicVal = 0;
         if (State.isGoalState()) {
-            return main.bignum *state.peopleToSave;
+            return hueristicVal;
         } else {
             int peopleCantBeRescude = 0;
             int deadLine = state.deadLine;
@@ -194,7 +200,7 @@ public class GameTreeSearchAgent extends Agents {
     }
 
     private boolean cutOff(int cutoffDepth) {
-        return (cutoffDepth > 20);
+        return (cutoffDepth > 8);
     }
 
 

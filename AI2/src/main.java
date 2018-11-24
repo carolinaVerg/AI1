@@ -98,12 +98,12 @@ public class main {
  		        if(world.getDeadLine() > 0 ) {
                      newAction = a.agentFunc(world.getDeadLine(), world.getPeopleNotRescude(),agents[(i+1)%2].getState(),world.getVertices());
                      updateWorld(newAction, world);
-                     displayAgentInWorld(a,i);
+                     displayAgentInWorld(a,i+1);
                      //display current state
                  }
  			}
  		}
- 		displayWorld(world);
+ 		displayWorld(world,agents);
  		// print world at end of deadline
      }
 
@@ -118,16 +118,13 @@ public class main {
         System.out.format("Number of people saved:       %d\n",agent.getState().getPeopleSaved());
     }
 
-    private static void displayWorld(Graph world) {
-        System.out.println("please enter the f parameter to evaluate the performance:");
-        Scanner reader = new Scanner(System.in);
-        int f = reader.nextInt();
+    private static void displayWorld(Graph world,Agents[] agents) {
         System.out.println("\n--------------------------------");
-        System.out.println("Deadline is over, current world state:");
-        System.out.format("Number of people saved:       %d\n",world.getPeopleRescude());
-        System.out.format("Number of people Not rescued: %d\n",world.getPeopleNotRescude());
-        int p = f*world.getPeopleRescude() + numOfExpands;
-        System.out.format("The Agents performance: %d\n",p);
+        System.out.println("        GAME OVER       ");
+        System.out.format("Score of Agent #1: %d\n",agents[0].State.getPeopleSaved());
+        System.out.format("Score of Agent #2: %d\n",agents[1].State.getPeopleSaved());
+        System.out.format("\nTotal number of people saved:       %d\n",world.getPeopleRescude());
+        System.out.format("Number of people Not saved: %d\n",world.getPeopleNotRescude());
     }
 
     private static void updateWorld(Action newAction, Graph world) {
