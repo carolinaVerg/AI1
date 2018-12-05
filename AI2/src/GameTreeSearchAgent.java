@@ -93,7 +93,7 @@ public class GameTreeSearchAgent extends Agents {
                 
             }
             else{
-            	currentValue = maxValue(move, minState, bestMax,
+            	currentValue = maxValue(minState, move,  bestMax,
                         bestMin, cutoffDepth + 1,mode);
             }
 
@@ -151,55 +151,51 @@ public class GameTreeSearchAgent extends Agents {
     }
 
     private int evalFun(AgentState stateCurrent,AgentState stateOther, int mode) {
-        int heuristicCurrent = heuristicFun(stateCurrent);
-    	int evalVal=stateCurrent.getPeopleSaved()*main.bignum - heuristicCurrent;
-        if(mode==3)
-    		evalVal = evalVal+( stateOther.getPeopleSaved() - heuristicFun(stateOther));
-        if(heuristicCurrent == 0){
-            if(mode==3){
-                evalVal = evalVal - stateCurrent.getPeopleToSave()*2;
-            }else{
-                evalVal = evalVal - stateCurrent.getPeopleToSave();
-            }
-        }
-        return evalVal;
+    	int to_ret;
+        if(mode==1) 
+        	 to_ret= (2*stateCurrent.getPeopleSaved()+peopleCanBeRescude(stateCurrent)
+        			-(2*stateOther.getPeopleSaved()+peopleCanBeRescude(stateOther)));
+        if(mode==2)
+        	 to_ret= 2*stateCurrent.getPeopleSaved()+peopleCanBeRescude(stateCurrent);
+        else
+        	 to_ret= (2*stateCurrent.getPeopleSaved()+peopleCanBeRescude(stateCurrent)
+        			+2*stateOther.getPeopleSaved()+peopleCanBeRescude(stateOther));
+        return to_ret;
     }
 
-    private int heuristicFun(AgentState state) {
-        int hueristicVal = 0;
+    private int peopleCanBeRescude(AgentState state) {
         if (State.isGoalState()) {
-            return hueristicVal;
+            return 0;
         } else {
-            int peopleCantBeRescude = 0;
+        	AgentState stateCopy = new AgentState(0, 0, 0, state.getVertices());
+        	stateCopy.updateMyState(state);
+            int peopleCanBeRescude = 0;
             int deadLine = state.deadLine;
-            GameTreeSearchAgent agent = new GameTreeSearchAgent(state);
+            GameTreeSearchAgent agent = new GameTreeSearchAgent(stateCopy);
             AgentState newPeopleState = null;
             AgentState newShelterState = null;
-            Iterator<Vertex> iter = main.world.getVertices().listIterator(0);
+            Iterator<Vertex> iter = state.getVertices().listIterator(0);
             Vertex currentVertex;
             BinaryHeap<TreeVertex> fring;
             while (iter.hasNext()) {
                 fring = new BinaryHeap<>();
-                fring.add(new TreeVertex(state, null, 0));
+                fring.add(new TreeVertex(stateCopy, null, 0));
                 newPeopleState = null;
                 currentVertex = iter.next();
                 if (currentVertex.getPeople() > 0) {
                     newPeopleState = agent.TreeSearch(fring, "id", currentVertex.getId());  //serch for people
-                    if (newPeopleState == null)
-                        peopleCantBeRescude = peopleCantBeRescude + currentVertex.getPeople();
-                    else {
+                    if (newPeopleState != null){
                         fring = new BinaryHeap<>();
                         fring.add(new TreeVertex(newPeopleState, null, 0));
                         newShelterState = agent.TreeSearch(fring, "shelter", 0);
-                        if (newShelterState == null || newShelterState.getDeadLine() < 0)    // people canot be saved
-                            peopleCantBeRescude = peopleCantBeRescude + currentVertex.getPeople();
+                        if (newShelterState != null && !(newShelterState.getDeadLine() < 0))    // people canot be saved
+                        	peopleCanBeRescude = peopleCanBeRescude + currentVertex.getPeople();
                     }
                 }
 
 
             }
-            hueristicVal = main.bignum * peopleCantBeRescude;
-            return hueristicVal;
+            return peopleCanBeRescude;
         }
     }
 
