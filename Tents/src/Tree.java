@@ -1,30 +1,33 @@
+import java.util.LinkedList;
 
-public class Tree {
-	private int x;
-	private int y;
-	private boolean tentFound;
-	public Tree(int x , int y) {
-		 this.x = x;
-		 this.y  = y;
-		 this.tentFound=false;
+public class Tree extends Square{
+	private Tent tent;
+	public Tree(int x, int y) {
+		 super(x, y);
+		 this.tent=null;
+		 this.obj='T';
 	}
-	public int getX() {
-		return x;
+	public Tent getTent() {
+		return tent;
 	}
-	public void setX(int x) {
-		this.x = x;
+	public void setTent(Tent tent) {
+		this.tent = tent;
 	}
-	public int getY() {
-		return y;
+	public int maybeTent() {
+		int ans=0;
+		if(this.up!=null && this.up.obj=='f')
+			ans++;
+		if(this.down!=null && this.down.obj=='f')
+			ans++;
+		if(this.left!=null && this.left.obj=='f')
+		ans++;
+		if(this.right!=null && this.right.obj=='f')
+		ans++;
+		return ans;
 	}
-	public void setY(int y) {
-		this.y = y;
-	}
-	public boolean isTentFound() {
-		return tentFound;
-	}
-	public void setTentFound(boolean tentFound) {
-		this.tentFound = tentFound;
-	}
+
+	
+	
+
 	
 }
