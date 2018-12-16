@@ -8,13 +8,12 @@ public class main {
     public static int bignum=0;
     public static int numOfExpands = 0;
     public static int gameType=0;
-    // K
-    //update messages in the begin
-    //simulator
-    //GUI
+    public static int agentCSimSavedP = 0;
+    public static int agentOSimSavedP = 0;
+
 
 	public static void main(String[] args) {
-		File file = new File("/home/carolina/eclipse-workspace/AI2/tests/test1.txt"); //graph description
+		File file = new File("/home/carolina/eclipse-workspace/AI2/tests/test3.txt"); //graph description
         BufferedReader br = null;
 		String st = "";
 		world = initWorld(br,world,st,file);
@@ -96,6 +95,9 @@ public class main {
  		    for(int i=0; i<agents.length; i++) {
  		    	Agents a=agents[i];	    	
  		        if(world.getDeadLine() > 0 ) {
+ 		            if(world.getDeadLine()==8){
+ 		                int alls = 0;
+                    }
                      newAction = a.agentFunc(world.getDeadLine(), world.getPeopleNotRescude(),agents[(i+1)%2].getState(),world.getVertices());
                      updateWorld(newAction, world);
                      displayAgentInWorld(a,i+1);

@@ -44,20 +44,36 @@ public class GameTreeSearchAgent extends Agents {
         AgentState bestNextState = null;
         AgentState curentMove = new AgentState(0, 0, 0, this.getState().getVertices());
         for (AgentState move : moves) {
-            otherAgentState.updateStateOp(move);
+            AgentState tempOtherState = new AgentState(0,0,0,otherAgentState.getVertices());
+            tempOtherState.updateMyState(otherAgentState);
+            tempOtherState.updateStateOp(move);
             curentMove.updateMyState(move);
+            int otherAgentSavedP = tempOtherState.getPeopleSaved();
             if(mode==1){
-            	currentValue = oppMinMax(curentMove,otherAgentState,mode, Integer.MIN_VALUE,
-                        Integer.MAX_VALUE, 1);  
+            	currentValue = oppMinMax(curentMove,tempOtherState,mode, Integer.MIN_VALUE,
+                        Integer.MAX_VALUE, 1);
             }
             else {
-            	currentValue = oppMinMax(curentMove,otherAgentState,mode, Integer.MIN_VALUE,
+            	currentValue = oppMinMax(curentMove,tempOtherState,mode, Integer.MIN_VALUE,
                         Integer.MIN_VALUE, 1);
             }
-            if (currentValue > MaxOfMin) {    // saving the greatest value of all
-                MaxOfMin = currentValue;
-                bestNextState = move;
+            if (currentValue >= MaxOfMin) {
+                if(currentValue==MaxOfMin && mode==2){
+                    if(otherAgentSavedP < main.agentOSimSavedP){
+                        MaxOfMin = currentValue;
+                        bestNextState = move;
+                    }
+                }
+                else{
+                    MaxOfMin = currentValue;
+                    bestNextState = move;
+                }
+
             }
+//            if (currentValue > MaxOfMin) {    // saving the greatest value of all
+//                MaxOfMin = currentValue;
+//                bestNextState = move;
+//            }
         }
         return bestNextState;
     }
@@ -70,36 +86,41 @@ public class GameTreeSearchAgent extends Agents {
                     bestValue1, bestValue2, cutoffDepth);
         }
         else {
-        	currentValue = maxValue(curentMove, otherAgentState,
-                    bestValue1, bestValue2, cutoffDepth,mode);
+        	currentValue = maxValue(otherAgentState,curentMove,
+                    bestValue1, bestValue2, cutoffDepth,mode,true);
         }
         
         return currentValue;
     }
 
-    private int maxValue(AgentState maxState, AgentState minState, int bestMax, int bestMin, int cutoffDepth, int mode) {  //returns a heuristicValue of the cutoff
-        if (cutOff(cutoffDepth) || maxState.isGoalState())
-            return evalFun(maxState,minState,mode);
+    private int maxValue(AgentState maxState, AgentState minState, int bestMax, int bestMin, int cutoffDepth, int mode,boolean isCurrent) {  //returns a heuristicValue of the cutoff
+        if (cutOff(cutoffDepth) || maxState.isGoalState()) {
+                return evalFun(maxState, minState, mode);
+        }
         int MaxOfMin = Integer.MIN_VALUE;
         LinkedList<AgentState> moves = generateNextMoveState(maxState);
         int currentValue = 0;
         for (AgentState move : moves) {
-            minState.updateStateOp(move);
-
-            // min-max OR max-max
-            if(mode==1){
-            	currentValue = minValue(move, minState, bestMax,
-                        bestMin, cutoffDepth + 1);
-                
-            }
-            else{
-            	currentValue = maxValue(minState, move,  bestMax,
-                        bestMin, cutoffDepth + 1,mode);
-            }
-
+        	if(move.getDeadLine()>=0) {
+        		AgentState tempMinState = new AgentState(0,0,0,minState.getVertices());
+        		tempMinState.updateMyState(minState);
+        		tempMinState.updateStateOp(move);
+        		// min-max OR max-max
+        		if(mode==1){
+        			currentValue = minValue(move, tempMinState, bestMax,
+        					bestMin, cutoffDepth + 1);
+        		}
+        		else{
+        			currentValue = maxValue(tempMinState, move,  bestMax,
+        					bestMin, cutoffDepth + 1,mode,!isCurrent);
+        		}
+        	}
+        	else {
+        		currentValue = evalFun(maxState, minState, mode);
+        	}
             //finding max value of opp
-            if (currentValue > MaxOfMin) {
-                MaxOfMin = currentValue;
+            if (currentValue >= MaxOfMin) {
+                    MaxOfMin = currentValue;
             }
             if(mode==1) {
                 if (MaxOfMin > bestMin)
@@ -114,13 +135,20 @@ public class GameTreeSearchAgent extends Agents {
 
     private int minValue(AgentState maxState, AgentState minState, int bestMax, int bestMin, int cutoffDepth) {
         if (cutOff(cutoffDepth) || minState.isGoalState())
-            return evalFun(minState,maxState,1);
+            return evalFun(maxState,minState,1);
         int MinOfMax = Integer.MAX_VALUE;
         LinkedList<AgentState> moves = generateNextMoveState(minState);
         int currentMax = 0;
         for (AgentState move : moves) {
-            maxState.updateStateOp(move);
-            currentMax = maxValue(maxState, move, bestMax, bestMin, cutoffDepth + 1,1);
+        	if(move.getDeadLine()>=0) {
+        		AgentState tempMaxState = new AgentState(0,0,0,maxState.getVertices());
+        		tempMaxState.updateMyState(maxState);
+            	tempMaxState.updateStateOp(move);
+            	currentMax = maxValue(tempMaxState, move, bestMax, bestMin, cutoffDepth + 1,1,false);
+        	}
+        	else {
+        		currentMax=evalFun(maxState,minState,1);
+        	}
             if (currentMax < MinOfMax) {
                 MinOfMax = currentMax;
             }
@@ -152,11 +180,14 @@ public class GameTreeSearchAgent extends Agents {
 
     private int evalFun(AgentState stateCurrent,AgentState stateOther, int mode) {
     	int to_ret;
-        if(mode==1) 
-        	 to_ret= (2*stateCurrent.getPeopleSaved()+peopleCanBeRescude(stateCurrent)
-        			-(2*stateOther.getPeopleSaved()+peopleCanBeRescude(stateOther)));
-        if(mode==2)
-        	 to_ret= 2*stateCurrent.getPeopleSaved()+peopleCanBeRescude(stateCurrent);
+        if(mode==1) {
+            to_ret = (2 * stateCurrent.getPeopleSaved() + peopleCanBeRescude(stateCurrent))-
+            		(2 * stateOther.getPeopleSaved() + peopleCanBeRescude(stateOther));         
+        }
+        else if(mode==2) {
+            to_ret = (200*stateCurrent.getPeopleSaved()+peopleCanBeRescude(stateCurrent)
+			+2*stateOther.getPeopleSaved()+peopleCanBeRescude(stateOther));
+        }
         else
         	 to_ret= (2*stateCurrent.getPeopleSaved()+peopleCanBeRescude(stateCurrent)
         			+2*stateOther.getPeopleSaved()+peopleCanBeRescude(stateOther));
@@ -200,7 +231,7 @@ public class GameTreeSearchAgent extends Agents {
     }
 
     private boolean cutOff(int cutoffDepth) {
-        return (cutoffDepth > 8);
+        return (cutoffDepth > 10);
     }
 
 

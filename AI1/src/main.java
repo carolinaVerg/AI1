@@ -13,7 +13,7 @@ public class main {
     //GUI
 
 	public static void main(String[] args) {
-		File file = new File("/home/carolina/eclipse-workspace/AI1-master/AI1/src/tests/test1.txt"); //graph description
+		File file = new File("/home/carolina/eclipse-workspace/AI2/tests/test2.txt"); //graph description
         BufferedReader br = null;
 		String st = "";
 		world = initWorld(br,world,st,file);
