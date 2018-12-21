@@ -13,4 +13,11 @@ public class BN_Fl extends BN_Node{
 		this.distribution = distribution;
 	}
 
+	@Override
+	public void updateCPT(){
+		this.cpt = new double[2];
+		this.cpt[1] = distribution;
+	}
+
+
 }

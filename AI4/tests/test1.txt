@@ -3,3 +3,5 @@ V 1 F 0.2    ; Vertex 1, probability flooding 0.2
 V 2 F 0.4    ; Vertex 2, probability flooding 0.4
 E 1 Vs 1 2 W 1 ; Edge1 between vertices 1 and 2, weight 1
 E 2 Vs 2 3 W 1
+E 3 Vs 3 4 W 3 ; Edge3 between vertices 3 and 4, weight 3
+E 4 Vs 2 4 W 4 ; Edge4 between vertices 2 and 4, weight 4
