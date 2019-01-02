@@ -20,5 +20,10 @@ public class BN_Ev extends BN_Node{
 			count++;
 		}
 	}
+	@Override
+	public String toString() {
+		return "BN_ev "+id;
+		
+	}
 
 }

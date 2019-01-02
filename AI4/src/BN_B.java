@@ -13,4 +13,9 @@ public class BN_B extends BN_Node{
 	        qiArray[i] = 1 - (0.6 / this.weight);
         }
     }
+    @Override
+	public String toString() {
+		return "BN_B "+id;
+		
+	}
 }

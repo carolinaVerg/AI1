@@ -73,6 +73,8 @@ public class BN_Node {
 
 	public void evalQi(double[] qiArray) {
 	}
+	
+	
 
 
 }

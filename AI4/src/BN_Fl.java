@@ -18,6 +18,11 @@ public class BN_Fl extends BN_Node{
 		this.cpt = new double[2];
 		this.cpt[1] = distribution;
 	}
+	@Override
+	public String toString() {
+		return "BN_fl " + id;
+		
+	}
 
 
 }
